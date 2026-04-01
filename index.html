@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vladimir Toplitsch</title>
+  <style>
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      color: #111;
+      font-family: 'Akzidenz-Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      -webkit-font-smoothing: antialiased;
+      cursor: none;
+    }
+
+    /* ─── CURSEUR ─── */
+    #cur {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: #111;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ─── NAV ─── */
+    /* Même structure que balmerhahlen : logo gauche, liens centre, réseaux droite */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .nav-logo {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .01em;
+      text-decoration: none;
+      color: #111;
+      white-space: nowrap;
+    }
+
+    .nav-center {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      justify-content: flex-end;
+    }
+
+    .nav-center a,
+    .nav-right a {
+      font-size: 12px;
+      letter-spacing: .01em;
+      text-decoration: none;
+      color: #111;
+      transition: opacity .15s;
+    }
+    .nav-center a:hover,
+    .nav-right a:hover { opacity: .4; }
+
+    /* page active */
+    .nav-center a.active { text-decoration: underline; }
+
+    /* ─── PAGES ─── */
+    .page { display: none; padding-top: 43px; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ─── PAGE PROJETS — grille ─── */
+    /* Même logique : mosaïque 2 colonnes, images plein cadre, texte au survol */
+    #page-projets .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project {
+      position: relative;
+      overflow: hidden;
+      background: #f0f0f0;
+      cursor: none;
+      /* pas de gap : les projets se touchent */
+      border-bottom: 1px solid #fff;
+      border-right: 1px solid #fff;
+    }
+    .project:nth-child(2n) { border-right: none; }
+
+    /* Projet pleine largeur */
+    .project.wide {
+      grid-column: span 2;
+      border-right: none;
+    }
+
+    /* Image — remplace .ph par <img> quand tu as tes photos */
+    .project img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .project:hover img { transform: scale(1.03); }
+
+    /* Placeholder */
+    .ph {
+      width: 100%;
+      aspect-ratio: 3/2;
+      background: #ebebeb;
+      transition: background .25s;
+    }
+    .project.wide .ph { aspect-ratio: 16/7; }
+    .project:hover .ph { background: #e2e2e2; }
+
+    /* Titre au survol — en bas à gauche, très discret */
+    .project-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      opacity: 0;
+      transition: opacity .2s;
+      background: linear-gradient(transparent, rgba(255,255,255,.75));
+    }
+    .project:hover .project-label { opacity: 1; }
+
+    .project-label span:first-child {
+      font-size: 11px;
+      letter-spacing: .04em;
+    }
+    .project-label span:last-child {
+      font-size: 11px;
+      letter-spacing: .04em;
+      opacity: .45;
+    }
+
+    /* ─── PAGE ABOUT ─── */
+    #page-about {
+      max-width: 640px;
+      padding: 72px 20px 80px;
+    }
+
+    #page-about h2 {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: .01em;
+      margin-bottom: 40px;
+    }
+
+    #page-about p {
+      font-size: 12px;
+      line-height: 1.75;
+      margin-bottom: 20px;
+      color: #111;
+    }
+
+    /* ─── PAGE CONTACT ─── */
+    #page-contact {
+      padding: 72px 20px 80px;
+    }
+
+    #page-contact h2 {
+      font-size: 12px;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+
+    .contact-block {
+      margin-bottom: 32px;
+    }
+
+    .contact-block p {
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .contact-block a {
+      font-size: 12px;
+      color: #111;
+      text-decoration: none;
+      border-bottom: 1px solid #111;
+    }
+    .contact-block a:hover { opacity: .4; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 14px 20px;
+      border-top: 1px solid #e8e8e8;
+      font-size: 11px;
+      color: #999;
+      letter-spacing: .01em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      nav { grid-template-columns: 1fr 1fr; padding: 12px 14px; }
+      .nav-center { display: none; }
+      .nav-right { gap: 14px; }
+      #page-projets .grid { grid-template-columns: 1fr; }
+      .project.wide { grid-column: span 1; }
+      .project.wide .ph { aspect-ratio: 3/2; }
+      .project { border-right: none; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="show('projets')">Vladimir Toplitsch</a>
+
+  <ul class="nav-center">
+    <li><a href="#" onclick="show('projets')" id="nav-projets" class="active">Projets</a></li>
+    <li><a href="#" onclick="show('about')"   id="nav-about">À propos</a></li>
+    <li><a href="#" onclick="show('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+
+  <ul class="nav-right">
+    <li><a href="https://www.instagram.com/" target="_blank">Instagram</a></li>
+    <li><a href="https://www.linkedin.com/"  target="_blank">LinkedIn</a></li>
+  </ul>
+</nav>
+
+
+<!-- ════════════════════════════════
+     PAGE PROJETS
+     ════════════════════════════════
+     Comment ajouter une image :
+     1. Remplace <div class="ph"></div>
+        par <img src="ton-image.jpg" alt=""/>
+     2. Mets à jour le titre dans .project-label
+     ──────────────────────────────── -->
+<div id="page-projets" class="page active">
+  <div class="grid">
+
+    <!-- Projet 1 — pleine largeur -->
+    <article class="project wide">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 2 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 3 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 4 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 5 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 6 -->
+    <article class="project wide">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 7 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+    <!-- Projet 8 -->
+    <article class="project">
+      <div class="ph"></div>
+      <div class="project-label">
+        <span>Nom du projet</span>
+        <span>Type · 2024</span>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>© 2024 Vladimir Toplitsch</footer>
+</div>
+
+
+<!-- ════════════════════════════════
+     PAGE À PROPOS
+     ════════════════════════════════ -->
+<div id="page-about" class="page">
+  <h2>À propos</h2>
+  <p>
+    Vladimir Toplitsch est graphiste en formation à l'ERACOM, Lausanne.
+  </p>
+  <p>
+    <!-- Ajoute ta biographie ici -->
+  </p>
+  <footer>© 2024 Vladimir Toplitsch</footer>
+</div>
+
+
+<!-- ════════════════════════════════
+     PAGE CONTACT
+     ════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <h2>Contact</h2>
+
+  <div class="contact-block">
+    <p>
+      <a href="mailto:votre@email.ch">votre@email.ch</a>
+    </p>
+  </div>
+
+  <div class="contact-block">
+    <p>
+      ERACOM<br/>
+      Lausanne, Suisse
+    </p>
+  </div>
+
+  <div class="contact-block">
+    <p>
+      <a href="https://www.instagram.com/" target="_blank">Instagram</a><br/>
+      <a href="https://www.linkedin.com/"  target="_blank">LinkedIn</a>
+    </p>
+  </div>
+
+  <footer>© 2024 Vladimir Toplitsch</footer>
+</div>
+
+
+<script>
+  /* Curseur */
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top  = e.clientY + 'px';
+  });
+
+  /* Navigation SPA */
+  function show(page) {
+    /* Cacher toutes les pages */
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    /* Désactiver tous les liens nav */
+    document.querySelectorAll('.nav-center a').forEach(a => a.classList.remove('active'));
+    /* Afficher la page cible */
+    document.getElementById('page-' + page).classList.add('active');
+    /* Souligner le lien actif */
+    const link = document.getElementById('nav-' + page);
+    if (link) link.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
