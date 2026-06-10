@@ -1,213 +1,26 @@
+/* typo */
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+/* Font family */
 
-    body {
-      background: #fff;
-      color: #111;
-      font-family: 'Akzidenz-Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: 12px;
-      -webkit-font-smoothing: antialiased;
-      cursor: none;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-    /* ─── CURSEUR ─── */
-    #cur {
-      position: fixed;
-      width: 6px; height: 6px;
-      background: #111;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
+body{background: #ffffff;
 
-    /* ─── NAV ─── */
-    /* Même structure que balmerhahlen : logo gauche, liens centre, réseaux droite */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: #fff;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: 14px 20px;
-      border-bottom: 1px solid #e8e8e8;
-    }
+font-family: "Public Sans", sans-serif;}
 
-    .nav-logo {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: .01em;
-      text-decoration: none;
-      color: #111;
-      white-space: nowrap;
-    }
+/* Font size */
 
-    .nav-center {
-      display: flex;
-      gap: 28px;
-      list-style: none;
-    }
+:root{
+--size-XXL: 64px;
+--size-XL: 32px;
+--size-L: 20px;
+--size-M: 16px;
+--size-S: 13px;
 
-    .nav-right {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-      justify-content: flex-end;
-    }
+}
 
-    .nav-center a,
-    .nav-right a {
-      font-size: 12px;
-      letter-spacing: .01em;
-      text-decoration: none;
-      color: #111;
-      transition: opacity .15s;
-    }
-    .nav-center a:hover,
-    .nav-right a:hover { opacity: .4; }
+p {font-size: var(--size-M);}
+h1 {font-size: var(--size-XXL);}
 
-    /* page active */
-    .nav-center a.active { text-decoration: underline; }
+.vignette{max-width: 720px;}
 
-    /* ─── PAGES ─── */
-    .page { display: none; padding-top: 43px; min-height: 100vh; }
-    .page.active { display: block; }
-
-    /* ─── PAGE PROJETS — grille ─── */
-    /* Même logique : mosaïque 2 colonnes, images plein cadre, texte au survol */
-    #page-projets .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .project {
-      position: relative;
-      overflow: hidden;
-      background: #f0f0f0;
-      cursor: none;
-      /* pas de gap : les projets se touchent */
-      border-bottom: 1px solid #fff;
-      border-right: 1px solid #fff;
-    }
-    .project:nth-child(2n) { border-right: none; }
-
-    /* Projet pleine largeur */
-    .project.wide {
-      grid-column: span 2;
-      border-right: none;
-    }
-
-    /* Image — remplace .ph par <img> quand tu as tes photos */
-    .project img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .6s cubic-bezier(.22,1,.36,1);
-    }
-    .project:hover img { transform: scale(1.03); }
-
-    /* Placeholder */
-    .ph {
-      width: 100%;
-      aspect-ratio: 3/2;
-      background: #ebebeb;
-      transition: background .25s;
-    }
-    .project.wide .ph { aspect-ratio: 16/7; }
-    .project:hover .ph { background: #e2e2e2; }
-
-    /* Titre au survol — en bas à gauche, très discret */
-    .project-label {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 10px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      opacity: 0;
-      transition: opacity .2s;
-      background: linear-gradient(transparent, rgba(255,255,255,.75));
-    }
-    .project:hover .project-label { opacity: 1; }
-
-    .project-label span:first-child {
-      font-size: 11px;
-      letter-spacing: .04em;
-    }
-    .project-label span:last-child {
-      font-size: 11px;
-      letter-spacing: .04em;
-      opacity: .45;
-    }
-
-    /* ─── PAGE ABOUT ─── */
-    #page-about {
-      max-width: 640px;
-      padding: 72px 20px 80px;
-    }
-
-    #page-about h2 {
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: .01em;
-      margin-bottom: 40px;
-    }
-
-    #page-about p {
-      font-size: 12px;
-      line-height: 1.75;
-      margin-bottom: 20px;
-      color: #111;
-    }
-
-    /* ─── PAGE CONTACT ─── */
-    #page-contact {
-      padding: 72px 20px 80px;
-    }
-
-    #page-contact h2 {
-      font-size: 12px;
-      font-weight: 400;
-      margin-bottom: 40px;
-    }
-
-    .contact-block {
-      margin-bottom: 32px;
-    }
-
-    .contact-block p {
-      font-size: 12px;
-      line-height: 1.9;
-    }
-
-    .contact-block a {
-      font-size: 12px;
-      color: #111;
-      text-decoration: none;
-      border-bottom: 1px solid #111;
-    }
-    .contact-block a:hover { opacity: .4; }
-
-    /* ─── FOOTER ─── */
-    footer {
-      padding: 14px 20px;
-      border-top: 1px solid #e8e8e8;
-      font-size: 11px;
-      color: #999;
-      letter-spacing: .01em;
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 600px) {
-      nav { grid-template-columns: 1fr 1fr; padding: 12px 14px; }
-      .nav-center { display: none; }
-      .nav-right { gap: 14px; }
-      #page-projets .grid { grid-template-columns: 1fr; }
-      .project.wide { grid-column: span 1; }
-      .project.wide .ph { aspect-ratio: 3/2; }
-      .project { border-right: none; }
-    }

@@ -1,191 +1,261 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vladimir Toplitsch</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>toplitsch — graphisme</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #0b0b0b;
+      --cream: #d9d3c8;
+      --muted: #444;
+      --gap: 2px;
+      --font: 'Akzidenz-Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
 
+    html, body { height: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: var(--font);
+      font-weight: 300;
+      cursor: none;
+      overflow: hidden;
+    }
+
+    .cursor {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      background: var(--cream);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width .15s, height .15s, background .15s;
+      z-index: 999;
+    }
+    .cursor.hover {
+      width: 38px;
+      height: 38px;
+      background: transparent;
+      border: 1px solid #d9d3c855;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.8rem 2.4rem;
+      pointer-events: none;
+    }
+
+    .logo {
+      font-size: .85rem;
+      letter-spacing: .04em;
+      color: var(--cream);
+      pointer-events: all;
+      cursor: none;
+    }
+    .logo span { opacity: .35; }
+
+    nav { display: flex; gap: 2.5rem; pointer-events: all; }
+    nav a {
+      font-size: .62rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: none;
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--cream); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      height: 100vh;
+      gap: var(--gap);
+    }
+
+    .cell {
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      cursor: none;
+    }
+
+    .cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .55s cubic-bezier(.16, 1, .3, 1), opacity .3s;
+      opacity: .75;
+    }
+    .cell:hover img {
+      transform: scale(1.04);
+      opacity: 1;
+    }
+
+    .tag {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.4rem;
+      font-size: .58rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: .5;
+      z-index: 2;
+    }
+
+    .label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 3rem 1.4rem 1.3rem;
+      background: linear-gradient(transparent, #0b0b0bee);
+      opacity: 0;
+      transition: opacity .3s;
+      z-index: 2;
+    }
+    .cell:hover .label { opacity: 1; }
+
+    .label-title {
+      font-size: .9rem;
+      letter-spacing: .01em;
+      color: var(--cream);
+      margin-bottom: .25rem;
+    }
+    .label-cat {
+      font-size: .58rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 1.6rem;
+      left: 2.4rem;
+      right: 2.4rem;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+      pointer-events: none;
+    }
+    footer span {
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #333;
+    }
+    footer a {
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #333;
+      text-decoration: none;
+      pointer-events: all;
+      cursor: none;
+      transition: color .2s;
+    }
+    footer a:hover { color: var(--cream); }
+
+    @media (max-width: 640px) {
+      body { overflow-y: auto; cursor: auto; }
+      .cursor { display: none; }
+      .grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 70vw);
+        height: auto;
+      }
+      header { position: relative; padding: 1.2rem 1.4rem; }
+      footer { position: relative; padding: 1.2rem 1.4rem; margin-top: 2px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cell img { transition: none; }
+    }
+  </style>
 </head>
 <body>
 
-<div id="cur"></div>
+  <div class="cursor" id="cur"></div>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#" onclick="show('projets')">Vladimir Toplitsch</a>
+  <header>
+    <div class="logo">toplitsch <span>gr.</span></div>
+    <nav>
+      <a href="mailto:vltoplitsch@gmail.com">Contact</a>
+    </nav>
+  </header>
 
-  <ul class="nav-center">
-    <li><a href="#" onclick="show('projets')" id="nav-projets" class="active">Projets</a></li>
-    <li><a href="#" onclick="show('about')"   id="nav-about">À propos</a></li>
-    <li><a href="#" onclick="show('contact')" id="nav-contact">Contact</a></li>
-  </ul>
+  <main class="grid">
 
-  <ul class="nav-right">
-    <li><a href="https://www.instagram.com/" target="_blank">Instagram</a></li>
-  </ul>
-</nav>
-
-
-<!-- ════════════════════════════════
-     PAGE PROJETS
-     ════════════════════════════════
-     Comment ajouter une image :
-     1. Remplace <div class="ph"></div>
-        par <img src="ton-image.jpg" alt=""/>
-     2. Mets à jour le titre dans .project-label
-     ──────────────────────────────── -->
-<div id="page-projets" class="page active">
-  <div class="grid">
-
-    <!-- Projet 1 — pleine largeur -->
-    <article class="project wide">
-
-      
-      <img src="IMG_2605.jpg" alt="">
-      <div class="project-label">
-        <span>Agenda</span>
-        <span>Edition · 2026</span>
+    <!-- CASE 1 : Logo -->
+    <div class="cell">
+      <div class="tag">Logo</div>
+      <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1200&q=80" alt="Projet logo">
+      <div class="label">
+        <div class="label-title">Votre titre</div>
+        <div class="label-cat">Logo — 2026</div>
       </div>
-    </article>
+    </div>
 
-    <!-- Projet 2 -->
-    <article class="project">
-      <img src="quatre.png" alt="">
-      <div class="project-label">
-        <span>Agenda</span>
-        <span>Edition · 2026</span>
+    <!-- CASE 2 : Typographie -->
+    <div class="cell">
+      <div class="tag">Typographie</div>
+      <img src="https://images.unsplash.com/photo-1524666643752-b381eb00effb?w=1200&q=80" alt="Projet typographie">
+      <div class="label">
+        <div class="label-title">Votre titre</div>
+        <div class="label-cat">Typographie — 2026</div>
       </div>
-    </article>
+    </div>
 
-    <!-- Projet 3 -->
-    <article class="project">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
+    <!-- CASE 3 : Affiche / Flyer -->
+    <div class="cell">
+      <div class="tag">Affiche / Flyer</div>
+      <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80" alt="Projet affiche">
+      <div class="label">
+        <div class="label-title">Votre titre</div>
+        <div class="label-cat">Affiche — 2026</div>
       </div>
-    </article>
+    </div>
 
-    <!-- Projet 4 -->
-    <article class="project">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
+    <!-- CASE 4 : Projet perso -->
+    <div class="cell">
+      <div class="tag">Projet perso</div>
+      <img src="https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=1200&q=80" alt="Projet personnel">
+      <div class="label">
+        <div class="label-title">Votre titre</div>
+        <div class="label-cat">Projet perso — 2026</div>
       </div>
-    </article>
+    </div>
 
-    <!-- Projet 5 -->
-    <article class="project">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
-      </div>
-    </article>
+  </main>
 
-    <!-- Projet 6 -->
-    <article class="project wide">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
-      </div>
-    </article>
+  <footer>
+    <span>Lausanne — Rue de Genève 55, 1004</span>
+    <a href="mailto:vltoplitsch@gmail.com">vltoplitsch@gmail.com</a>
+  </footer>
 
-    <!-- Projet 7 -->
-    <article class="project">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
-      </div>
-    </article>
-
-    <!-- Projet 8 -->
-    <article class="project">
-      <div class="ph"></div>
-      <div class="project-label">
-        <span>Nom du projet</span>
-        <span>Type · 2024</span>
-      </div>
-    </article>
-
-  </div>
-
-  <footer>© 2024 Vladimir Toplitsch</footer>
-</div>
-
-
-<!-- ════════════════════════════════
-     PAGE À PROPOS
-     ════════════════════════════════ -->
-<div id="page-about" class="page">
-  <h2>À propos</h2>
-  <p>
-    Vladimir Toplitsch est graphiste en formation à l'ERACOM, Lausanne.
-  </p>
-  <p>
-    <!-- Ajoute ta biographie ici -->
-  </p>
-  <footer>© 2024 Vladimir Toplitsch</footer>
-</div>
-
-
-<!-- ════════════════════════════════
-     PAGE CONTACT
-     ════════════════════════════════ -->
-<div id="page-contact" class="page">
-  <h2>Contact</h2>
-
-  <div class="contact-block">
-    <p>
-      <a href="mailto:votre@email.ch">votre@email.ch</a>
-    </p>
-  </div>
-
-  <div class="contact-block">
-    <p>
-      ERACOM<br/>
-      Lausanne, Suisse
-    </p>
-  </div>
-
-  <div class="contact-block">
-    <p>
-      <a href="https://www.instagram.com/" target="_blank">Instagram</a><br/>
-      <a href="https://www.linkedin.com/"  target="_blank">LinkedIn</a>
-    </p>
-  </div>
-
-  <footer>© 2024 Vladimir Toplitsch</footer>
-</div>
-
-
-<script>
-  /* Curseur */
-  const cur = document.getElementById('cur');
-  document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px';
-    cur.style.top  = e.clientY + 'px';
-  });
-
-  /* Navigation SPA */
-  function show(page) {
-    /* Cacher toutes les pages */
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    /* Désactiver tous les liens nav */
-    document.querySelectorAll('.nav-center a').forEach(a => a.classList.remove('active'));
-    /* Afficher la page cible */
-    document.getElementById('page-' + page).classList.add('active');
-    /* Souligner le lien actif */
-    const link = document.getElementById('nav-' + page);
-    if (link) link.classList.add('active');
-    window.scrollTo(0, 0);
-  }
-</script>
+  <script>
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('.cell').forEach(c => {
+      c.addEventListener('mouseenter', () => cur.classList.add('hover'));
+      c.addEventListener('mouseleave', () => cur.classList.remove('hover'));
+    });
+  </script>
 
 </body>
 </html>
