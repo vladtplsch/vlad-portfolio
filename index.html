@@ -81,40 +81,52 @@
       pointer-events: none;
     }
 
-    /* Conteneur de texte ajusté sans créer de nouveau contexte de rendu */
+    /* Conteneur de texte ajusté pour une centralisation parfaite */
     .project-content {
       position: relative;
       text-align: center;
       pointer-events: none;
       width: 100%;
+      max-width: 90vw;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Éléments secondaires */
+    /* Éléments secondaires supérieurs - Taille et espacement maximisés */
     .project-tag {
       display: block;
-      font-size: 0.8rem;
-      letter-spacing: 0.15em;
-      margin-bottom: 0.8rem;
+      font-size: 1.1rem; /* plus grand et très lisible */
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      margin-bottom: 5.5rem; /* espace aérien maximal */
       color: #ffffff !important;
+      text-transform: lowercase;
     }
 
+    /* Éléments secondaires inférieurs - Taille et espacement maximisés */
     .project-year {
       display: block;
-      font-size: 0.75rem; 
+      font-size: 1.05rem; /* plus grand et très lisible */
       font-weight: 500;
-      letter-spacing: 0.12em; 
+      letter-spacing: 0.18em; 
+      margin-top: 5.5rem; /* espace aérien maximal */
       color: #ffffff !important;
+      text-transform: lowercase;
     }
     
-    /* LE TITRE : Blanc pur qui s'inverse chirurgicalement sur les blancs/gris de ton image */
+    /* LE TITRE : Interlignage ultra-serré et impactant */
     .project-title {
-      font-size: 9vw; 
+      font-size: 10.5vw; 
       font-weight: 200; 
-      letter-spacing: -0.04em;
-      line-height: 0.75;
-      margin-bottom: 0.9rem;
+      letter-spacing: -0.05em;
+      line-height: 0.72;
       color: #ffffff; 
       text-transform: lowercase;
+      white-space: normal;
+      word-break: break-word;
       
       /* Application stricte de la transparence inversée */
       mix-blend-mode: difference; 
@@ -141,13 +153,15 @@
       transform: scaleX(3);
     }
 
+    /* Ajustement Responsive */
     @media (max-width: 768px) {
       header, footer { padding: 2.5rem 2rem; font-size: 0.75rem; }
       .pagination { display: none; }
       footer { flex-direction: column; gap: 0.6rem; text-align: center; }
-      .project-tag { font-size: 0.7rem; margin-bottom: 0.6rem; }
-      .project-title { font-size: 4.5rem; letter-spacing: -0.03em; line-height: 0.8; margin-bottom: 0.6rem; }
-      .project-year { font-size: 0.65rem; }
+      .project-content { max-width: 100vw; }
+      .project-tag { font-size: 0.85rem; margin-bottom: 3rem; letter-spacing: 0.15em; }
+      .project-title { font-size: 5.5rem; letter-spacing: -0.04em; line-height: 0.78; }
+      .project-year { font-size: 0.8rem; margin-top: 3rem; letter-spacing: 0.12em; }
     }
   </style>
 </head>
@@ -171,7 +185,7 @@
       <img src="IMG_2605.jpg" alt="eracom" class="project-bg">
       <div class="project-content">
         <span class="project-tag">édition</span>
-        <h2 class="project-title">agenda </h2>
+        <h2 class="project-title">agenda</h2>
         <span class="project-year">projet graphique – 2026</span>
       </div>
     </section>
@@ -186,7 +200,7 @@
     </section>
 
     <section class="project-section">
-      <img src=IMG_2606.jpg alt="affiche" class="project-bg">
+      <img src="IMG_2606.jpg" alt="affiche" class="project-bg">
       <div class="project-content">
         <span class="project-tag">affiche / flyer</span>
         <h2 class="project-title">affiche nifff</h2>
