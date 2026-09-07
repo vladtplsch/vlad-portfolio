@@ -47,6 +47,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   line-height: 1;
+  text-transform: lowercase; /* aucune majuscule visible, où que ce soit sur le site */
 }
 
 a {
@@ -251,7 +252,7 @@ footer a:hover {
 .detail-close {
   position: fixed;
   top: var(--space-page-y);
-  right: var(--space-page-x);
+  left: var(--space-page-x);
   z-index: 210;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
@@ -302,14 +303,27 @@ footer a:hover {
 }
 
 .detail-images {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
+}
+
+/* Quand une seule image est fournie, elle occupe toute la largeur */
+.detail-images:has(img:only-child) {
+  grid-template-columns: 1fr;
 }
 
 .detail-images img {
   width: 100%;
+  height: auto;
   display: block;
+  background: rgba(255, 255, 255, 0.03); /* place-holder discret pendant le chargement */
+}
+
+@media (max-width: 640px) {
+  .detail-images {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Responsive ---------- */
