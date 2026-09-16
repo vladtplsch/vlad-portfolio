@@ -139,7 +139,15 @@ footer a:hover {
   cursor: pointer;
 }
 /* section "Intro" */
-.project-section#Intro{
+#Intro{
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+
   flex-direction: column; /* en vericale */
   height: 80vh;
 }

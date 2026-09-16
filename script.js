@@ -61,13 +61,17 @@ const projects = [
 const scrollContainer = document.getElementById('scrollContainer');
 const paginationEl = document.getElementById('pagination');
 const sections = Array.from(document.querySelectorAll('.project-section'));
+// Seules les sections avec data-project correspondent à une entrée de `projects`
+// (la section d'intro n'en a pas).
+const projectSections = sections.filter((section) => section.dataset.project !== undefined);
 
 // Génère un point de pagination par projet.
 const dots = sections.map((section, index) => {
   const dot = document.createElement('button');
   dot.className = 'dot';
   dot.type = 'button';
-  dot.setAttribute('aria-label', `Aller au projet : ${projects[index].title}`);
+  const project = projects[Number(section.dataset.project)];
+  dot.setAttribute('aria-label', project ? `Aller au projet : ${project.title}` : 'Aller à l\'intro');
   if (index === 0) {
     dot.classList.add('active');
     dot.setAttribute('aria-current', 'true');
@@ -260,7 +264,7 @@ lightbox.addEventListener('click', (event) => {
 
 lightboxClose.addEventListener('click', closeLightbox);
 
-sections.forEach((section) => {
+projectSections.forEach((section) => {
   const index = Number(section.dataset.project);
 
   section.addEventListener('click', () => openDetail(index));
