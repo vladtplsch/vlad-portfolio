@@ -138,33 +138,42 @@ footer a:hover {
   overflow: hidden;
   cursor: pointer;
 }
-/* section "Intro" */
-#Intro{
+/* ---------- Section d'intro (sommaire) ----------
+   Reprend exactement la grille des sections projet : bloc centré, petite
+   métadonnée en haut, respiration identique, titres en bas de casse fins. */
+.intro {
+  position: relative;
+  height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  cursor: pointer;
-
-  flex-direction: column; /* en vericale */
-  height: 80vh;
 }
 
-#Intro nav {
+/* .project-content coupe les clics : on les rétablit sur le sommaire. */
+.intro-nav {
+  pointer-events: all;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 2rem;
+  align-items: center;
+  gap: 0.6rem;
 }
-#Intro nav a{
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: 0.5px;
+
+.intro-link {
+  display: block;
+  font-size: clamp(2rem, 5.2vw, 4.25rem);
+  font-weight: 200;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  text-transform: lowercase;
+  transition: opacity var(--ease-fast);
 }
-#Intro nav a:before{
-  /* content: "→ "; */
+
+.intro-link:hover,
+.intro-link:focus-visible {
+  opacity: 0.4;
 }
 
 
@@ -176,6 +185,7 @@ footer a:hover {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  z-index: 0;
   transition: transform var(--ease-slow), filter var(--ease-slow);
 }
 
@@ -185,9 +195,27 @@ footer a:hover {
   filter: brightness(0.75);
 }
 
+/* Voile sombre entre la photo et le texte : contraste garanti quelle que
+   soit la luminosité de l'image derrière, contrairement à un blend mode qui
+   dépend du contenu et peut devenir illisible sur une photo trop claire. */
+.project-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.35) 0%,
+    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+}
+
 /* ---------- Typographie projet ---------- */
 .project-content {
   position: relative;
+  z-index: 2;
   text-align: center;
   pointer-events: none;
   width: 100%;
@@ -207,6 +235,7 @@ footer a:hover {
   line-height: 1;
   color: var(--color-fg);
   text-transform: lowercase;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
 .project-tag {
@@ -225,7 +254,7 @@ footer a:hover {
   color: var(--color-fg);
   text-transform: lowercase;
   word-break: break-word;
-  mix-blend-mode: difference;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
 /* ---------- Pagination ---------- */
@@ -263,6 +292,7 @@ footer a:hover {
   background: var(--color-bg);
   overflow-y: auto;
   opacity: 0;
+  pointer-events: none; /* tant qu'il n'est pas actif, il ne capte aucun clic */
   transform: translateY(2rem);
   transition: opacity var(--ease-medium), transform var(--ease-medium);
 }
@@ -275,6 +305,7 @@ footer a:hover {
 
 .detail.active {
   opacity: 1;
+  pointer-events: auto;
   transform: translateY(0);
 }
 
@@ -373,6 +404,7 @@ footer a:hover {
   align-items: center;
   justify-content: center;
   opacity: 0;
+  pointer-events: none; /* tant qu'il n'est pas actif, il ne capte aucun clic */
   transition: opacity var(--ease-medium);
 }
 
@@ -384,6 +416,7 @@ footer a:hover {
 
 .lightbox.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .lightbox-close {

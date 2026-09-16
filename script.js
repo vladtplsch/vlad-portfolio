@@ -108,6 +108,22 @@ const sectionObserver = new IntersectionObserver(
 );
 sections.forEach((section) => sectionObserver.observe(section));
 
+// Sur la section d'intro, aucun projet n'est actif : on éteint tous les points.
+const introSection = document.getElementById('intro');
+if (introSection) {
+  const introObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+          setActiveDot(-1);
+        }
+      });
+    },
+    { root: scrollContainer, threshold: 0.5 }
+  );
+  introObserver.observe(introSection);
+}
+
 /* ==========================================================================
    3. Page de détail
    ========================================================================== */
@@ -120,6 +136,41 @@ const detailText = document.getElementById('detailText');
 const detailImages = document.getElementById('detailImages');
 
 let lastFocusedElement = null;
+
+// État réel des overlays, mis à jour immédiatement à l'ouverture et à la
+// fermeture. On ne se fie ni à la classe d'animation ni à l'attribut `hidden`,
+// qui n'arrivent qu'à la fin du fondu : pendant ces quelques centaines de
+// millisecondes, deux appuis rapides sur Échap viseraient le mauvais overlay.
+let detailOpen = false;
+let lightboxOpen = false;
+
+/**
+ * Masque un overlay une fois son fondu terminé.
+ * Deux précautions : on ignore les transitionend qui remontent des enfants
+ * (le bouton « fermer » en a une), et un délai de secours garantit que
+ * l'overlay finit toujours par être masqué, même si l'événement n'arrive pas.
+ * Sans cela, un overlay invisible resterait au-dessus de la page et
+ * bloquerait tous les clics.
+ */
+function hideAfterTransition(element, onHidden) {
+  let done = false;
+
+  const finish = () => {
+    if (done) return;
+    done = true;
+    element.removeEventListener('transitionend', onTransitionEnd);
+    clearTimeout(fallback);
+    element.hidden = true;
+    if (onHidden) onHidden();
+  };
+
+  function onTransitionEnd(event) {
+    if (event.target === element) finish();
+  }
+
+  element.addEventListener('transitionend', onTransitionEnd);
+  const fallback = setTimeout(finish, 600);
+}
 
 function openDetail(index) {
   const project = projects[index];
@@ -156,12 +207,14 @@ function openDetail(index) {
 
   lastFocusedElement = document.activeElement;
 
+  detailOpen = true;
   detail.hidden = false;
-  // Force le recalcul de style avant d'ajouter la classe, pour que la
-  // transition CSS (opacity/transform) se joue correctement.
-  requestAnimationFrame(() => {
-    detail.classList.add('active');
-  });
+  // On force le navigateur à recalculer la mise en page avant d'ajouter la
+  // classe, pour que la transition CSS se joue. Un requestAnimationFrame
+  // serait retardé quand l'onglet n'est pas au premier plan, ce qui laisserait
+  // la page ouverte mais jamais « active » — donc impossible à fermer.
+  void detail.offsetWidth;
+  detail.classList.add('active');
 
   detail.scrollTop = 0;
   document.body.style.overflow = 'hidden';
@@ -169,16 +222,11 @@ function openDetail(index) {
 }
 
 function closeDetail() {
+  if (!detailOpen) return;
+  detailOpen = false;
   detail.classList.remove('active');
   document.body.style.overflow = '';
-
-  detail.addEventListener(
-    'transitionend',
-    () => {
-      detail.hidden = true;
-    },
-    { once: true }
-  );
+  hideAfterTransition(detail);
 
   if (lastFocusedElement) {
     lastFocusedElement.focus();
@@ -200,11 +248,11 @@ let videoOriginalParent = null;
 let videoOriginalNextSibling = null;
 
 function showLightbox() {
+  lightboxOpen = true;
   lastFocusedBeforeLightbox = document.activeElement;
   lightbox.hidden = false;
-  requestAnimationFrame(() => {
-    lightbox.classList.add('active');
-  });
+  void lightbox.offsetWidth; // force le recalcul avant la transition
+  lightbox.classList.add('active');
   document.body.style.overflow = 'hidden';
   lightboxClose.focus();
 }
@@ -229,26 +277,23 @@ function openLightboxVideo(video) {
 }
 
 function closeLightbox() {
+  if (!lightboxOpen) return;
+  lightboxOpen = false;
   lightbox.classList.remove('active');
-  document.body.style.overflow = '';
+  // La page projet reste ouverte derrière : on garde le scroll verrouillé.
+  document.body.style.overflow = detailOpen ? 'hidden' : '';
 
-  lightbox.addEventListener(
-    'transitionend',
-    () => {
-      lightbox.hidden = true;
-
-      // Si une vidéo était affichée, on la remet à sa place d'origine
-      // dans la page détail plutôt que de la détruire.
-      const video = lightboxContent.querySelector('video');
-      if (video && videoOriginalParent) {
-        videoOriginalParent.insertBefore(video, videoOriginalNextSibling);
-      }
-      videoOriginalParent = null;
-      videoOriginalNextSibling = null;
-      lightboxContent.innerHTML = '';
-    },
-    { once: true }
-  );
+  hideAfterTransition(lightbox, () => {
+    // Si une vidéo était affichée, on la remet à sa place d'origine
+    // dans la page détail plutôt que de la détruire.
+    const video = lightboxContent.querySelector('video');
+    if (video && videoOriginalParent) {
+      videoOriginalParent.insertBefore(video, videoOriginalNextSibling);
+    }
+    videoOriginalParent = null;
+    videoOriginalNextSibling = null;
+    lightboxContent.innerHTML = '';
+  });
 
   if (lastFocusedBeforeLightbox) {
     lastFocusedBeforeLightbox.focus();
@@ -282,9 +327,11 @@ detailClose.addEventListener('click', closeDetail);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    if (lightbox.classList.contains('active')) {
+    // On teste `hidden` plutôt que la classe d'animation : c'est l'état réel
+    // de l'overlay, donc la fermeture marche même si la transition n'a pas eu lieu.
+    if (lightboxOpen) {
       closeLightbox();
-    } else if (detail.classList.contains('active')) {
+    } else if (detailOpen) {
       closeDetail();
     }
   }
