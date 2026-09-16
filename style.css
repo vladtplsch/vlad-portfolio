@@ -128,7 +128,7 @@ footer a:hover {
 
 .project-section {
   position: relative;
-  width: 100vw;
+  /* width: 100vw; */
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -138,6 +138,27 @@ footer a:hover {
   overflow: hidden;
   cursor: pointer;
 }
+/* section "Intro" */
+.project-section#Intro{
+  flex-direction: column; /* en vericale */
+  height: 80vh;
+}
+
+#Intro nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+#Intro nav a{
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 0.5px;
+}
+#Intro nav a:before{
+  /* content: "→ "; */
+}
+
 
 .project-bg {
   position: absolute;
@@ -317,13 +338,85 @@ footer a:hover {
   width: 100%;
   height: auto;
   display: block;
+  cursor: zoom-in;
   background: rgba(255, 255, 255, 0.03); /* place-holder discret pendant le chargement */
+}
+
+.detail-video {
+  grid-column: 1 / -1; /* occupe toute la largeur de la grille, même en 2 colonnes */
+  width: 100%;
+  display: block;
+  cursor: zoom-in;
 }
 
 @media (max-width: 640px) {
   .detail-images {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- Lightbox (aperçu plein écran) ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--ease-medium);
+}
+
+.lightbox[hidden] {
+  display: flex; /* on gère nous-mêmes la visibilité pour l'animation */
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.lightbox.active {
+  opacity: 1;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: var(--space-page-y);
+  left: var(--space-page-x);
+  z-index: 310;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  background: none;
+  border: none;
+  color: var(--color-fg);
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity var(--ease-fast);
+}
+
+.lightbox-close:hover {
+  opacity: 0.6;
+}
+
+.lightbox-content {
+  max-width: 92vw;
+  max-height: 92vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-content img {
+  cursor: zoom-out;
 }
 
 /* ---------- Responsive ---------- */

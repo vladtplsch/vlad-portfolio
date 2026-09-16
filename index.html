@@ -21,12 +21,25 @@
 
   <main class="scroll-container" id="scrollContainer">
 
+    <section class="project-section" id="Intro">
+      <h1>Vladimir Toplitsch  <br>Graphic design</h1>
+
+      <nav>
+        <a href="#project-0">Agenda</a>
+        <a href="#project-1">Workshop affiche</a>
+        <a href="#project-2">NIFF</a>
+        <a href="#project-3">Bico collection</a>
+        <a href="#project-4">à rajouter…</a>
+      </nav>
+
+    </section>
+
     <section class="project-section" id="project-0" data-project="0" tabindex="0"
-              aria-haspopup="dialog" aria-label="Voir le projet : Agenda">
-      <img src="images/IMG_2605.jpg" alt="Couverture du projet Agenda" class="project-bg" loading="eager">
+              aria-haspopup="dialog" aria-label="Voir le projet : agend'archive">
+      <img src="images/IMG_2605.jpg" alt="Couverture du projet agend'archive" class="project-bg" loading="eager">
       <div class="project-content">
         <span class="project-meta project-tag">édition</span>
-        <h2 class="project-title">agenda</h2>
+        <h2 class="project-title">agend'archive</h2>
         <span class="project-meta project-year">projet graphique – 2026</span>
       </div>
     </section>
@@ -83,6 +96,13 @@
     </div>
   </div>
 
+  <!-- Lightbox : agrandit en plein écran l'image ou la vidéo cliquée dans la page détail -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu en plein écran" hidden>
+    <button class="lightbox-close" id="lightboxClose" type="button">fermer ×</button>
+    <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
   <script src="script.js"></script>
+
 </body>
 </html>

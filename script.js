@@ -16,8 +16,9 @@ const projects = [
   {
     tag: 'édition',
     year: 'projet graphique – 2026',
-    title: 'agenda',
-    text: "Conception d'un agenda pensé comme un objet de travail quotidien. La grille typographique organise semaines, notes et repères visuels avec une économie de moyens : peu de couleurs, une hiérarchie claire, un papier choisi pour sa tenue à l'usage.",
+    title: "agend'archive",
+    text: "Projet réalisé dans le cadre de mes études en graphisme, à partir d'une récolte d'archives de l'école. Le travail d'édition joue sur la transparence grâce à une feuille de calque insérée entre les pages, et une micro-typographie vient ponctuer discrètement la lecture des documents.",
+    video: 'images/video agenda.mp4',
     images: [
       'images/Présentation agenda_Final copie_Page_02.jpg',
       'images/Présentation agenda_Final copie_Page_03.jpg',
@@ -35,21 +36,21 @@ const projects = [
     tag: 'affiche',
     year: 'workshop – 2026',
     title: 'affiche workshop',
-    text: "Affiche réalisée dans le cadre d'un workshop typographique. Le travail explore la lettre comme image autant que comme texte, à travers des essais de composition et de contraste.",
+    text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition repose sur une superposition de couleurs, chaque couche venant enrichir l'image jusqu'à révéler l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
     tag: 'affiche / flyer',
     year: 'design – 2026',
     title: 'affiche nifff',
-    text: "Identité visuelle pour le Nifff, déclinée en affiche et flyer. La direction artistique s'appuie sur une image forte et une typographie sans fioritures pour porter l'événement sur tous les formats.",
+    text: "Pour le Nifff, j'ai réalisé un visage par collage, à partir de fragments d'images tirées de films du festival. Cette figure hybride associe cinéma et papier découpé, structurée par une composition typographique pensée pour accompagner l'affiche.",
     images: ['images/nifff.jpg'],
   },
   {
     tag: 'collaboration bico',
     year: '2026',
     title: 'collaboration bico',
-    text: "Projet mené en collaboration avec la marque suisse Bico Lausanne : création de deux pulls. Le design et la typographie ont été réalisés en broderie et en impression à chaud, mêlant une technique textile artisanale à un rendu graphique plus brut.",
+    text: "Créer ces deux pulls en collaboration avec la marque suisse Bico est l'un des projets qui m'a le plus donné envie d'aller au bout d'une idée. J'y ai exploré la broderie et l'impression à chaud, deux techniques exigeantes que j'aime pour le dialogue qu'elles créent entre précision textile et geste graphique plus brut.",
     images: ['images/IMG_5246.jpeg'],
   },
 ];
@@ -125,11 +126,27 @@ function openDetail(index) {
   detailText.textContent = project.text;
 
   detailImages.innerHTML = '';
+
+  // Vidéo du projet, si elle existe : en boucle, silencieuse, pleine largeur.
+  if (project.video) {
+    const video = document.createElement('video');
+    video.src = project.video;
+    video.className = 'detail-video';
+    video.loop = true;
+    video.muted = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.controls = true;
+    video.addEventListener('click', () => openLightboxVideo(video));
+    detailImages.appendChild(video);
+  }
+
   project.images.forEach((src) => {
     const img = document.createElement('img');
     img.src = src;
     img.alt = `Visuel détaillé — ${project.title}`;
     img.loading = 'lazy';
+    img.addEventListener('click', () => openLightboxImage(src, img.alt));
     detailImages.appendChild(img);
   });
 
@@ -164,6 +181,85 @@ function closeDetail() {
   }
 }
 
+/* ==========================================================================
+   4. Lightbox (aperçu plein écran d'une image ou de la vidéo)
+   ========================================================================== */
+const lightbox = document.getElementById('lightbox');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxContent = document.getElementById('lightboxContent');
+
+let lastFocusedBeforeLightbox = null;
+// Quand une vidéo est mise en plein écran, on déplace le vrai noeud <video>
+// (plutôt que d'en cloner un) pour qu'elle continue de jouer sans coupure.
+// On garde une référence à sa place d'origine pour l'y remettre à la fermeture.
+let videoOriginalParent = null;
+let videoOriginalNextSibling = null;
+
+function showLightbox() {
+  lastFocusedBeforeLightbox = document.activeElement;
+  lightbox.hidden = false;
+  requestAnimationFrame(() => {
+    lightbox.classList.add('active');
+  });
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+}
+
+function openLightboxImage(src, alt) {
+  lightboxContent.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = alt;
+  // Cliquer sur l'image agrandie referme le lightbox (comportement classique).
+  img.addEventListener('click', closeLightbox);
+  lightboxContent.appendChild(img);
+  showLightbox();
+}
+
+function openLightboxVideo(video) {
+  videoOriginalParent = video.parentNode;
+  videoOriginalNextSibling = video.nextSibling;
+  lightboxContent.innerHTML = '';
+  lightboxContent.appendChild(video);
+  showLightbox();
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+
+  lightbox.addEventListener(
+    'transitionend',
+    () => {
+      lightbox.hidden = true;
+
+      // Si une vidéo était affichée, on la remet à sa place d'origine
+      // dans la page détail plutôt que de la détruire.
+      const video = lightboxContent.querySelector('video');
+      if (video && videoOriginalParent) {
+        videoOriginalParent.insertBefore(video, videoOriginalNextSibling);
+      }
+      videoOriginalParent = null;
+      videoOriginalNextSibling = null;
+      lightboxContent.innerHTML = '';
+    },
+    { once: true }
+  );
+
+  if (lastFocusedBeforeLightbox) {
+    lastFocusedBeforeLightbox.focus();
+  }
+}
+
+// Cliquer sur le fond noir (en dehors de l'image/vidéo) referme le lightbox.
+lightbox.addEventListener('click', (event) => {
+  if (event.target === lightbox) {
+    closeLightbox();
+  }
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+
 sections.forEach((section) => {
   const index = Number(section.dataset.project);
 
@@ -181,7 +277,11 @@ sections.forEach((section) => {
 detailClose.addEventListener('click', closeDetail);
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && detail.classList.contains('active')) {
-    closeDetail();
+  if (event.key === 'Escape') {
+    if (lightbox.classList.contains('active')) {
+      closeLightbox();
+    } else if (detail.classList.contains('active')) {
+      closeDetail();
+    }
   }
 });
