@@ -15,6 +15,7 @@
 :root {
   --color-bg: #000000;
   --color-fg: #ffffff;
+  --color-fg-soft: rgba(255, 255, 255, 0.85);
   --color-fg-muted: rgba(255, 255, 255, 0.5);
   --color-fg-faint: rgba(255, 255, 255, 0.3);
 
@@ -82,8 +83,6 @@ footer {
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.08em;
-  color: var(--color-fg);
-  line-height: 1;
 }
 
 header {
@@ -120,36 +119,29 @@ footer a:hover {
 /* ---------- Scroll & sections projet ---------- */
 .scroll-container {
   height: 100vh;
+  height: 100dvh; /* évite les sauts liés à la barre d'adresse mobile */
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
 }
 
-.project-section {
-  position: relative;
-  /* width: 100vw; */
-  height: 100vh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  cursor: pointer;
-}
-/* ---------- Section d'intro (sommaire) ----------
-   Reprend exactement la grille des sections projet : bloc centré, petite
-   métadonnée en haut, respiration identique, titres en bas de casse fins. */
+/* .intro reprend exactement la grille des sections projet : bloc centré, même
+   respiration, mêmes proportions. Seule .project-section est cliquable. */
+.project-section,
 .intro {
   position: relative;
   height: 100vh;
+  height: 100dvh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+.project-section {
+  cursor: pointer;
 }
 
 /* .project-content coupe les clics : on les rétablit sur le sommaire. */
@@ -167,7 +159,6 @@ footer a:hover {
   font-weight: 200;
   letter-spacing: -0.045em;
   line-height: 1.02;
-  text-transform: lowercase;
   transition: opacity var(--ease-fast);
 }
 
@@ -175,7 +166,6 @@ footer a:hover {
 .intro-link:focus-visible {
   opacity: 0.4;
 }
-
 
 .project-bg {
   position: absolute;
@@ -232,9 +222,6 @@ footer a:hover {
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.2em;
-  line-height: 1;
-  color: var(--color-fg);
-  text-transform: lowercase;
   text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -251,8 +238,6 @@ footer a:hover {
   font-weight: 200;
   letter-spacing: -0.05em;
   line-height: 0.72;
-  color: var(--color-fg);
-  text-transform: lowercase;
   word-break: break-word;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
@@ -339,7 +324,6 @@ footer a:hover {
   justify-content: space-between;
   font-size: 0.85rem;
   letter-spacing: 0.15em;
-  text-transform: lowercase;
   color: var(--color-fg-muted);
   margin-bottom: 2.5rem;
 }
@@ -349,7 +333,6 @@ footer a:hover {
   font-weight: 200;
   letter-spacing: -0.04em;
   line-height: 0.95;
-  text-transform: lowercase;
   margin-bottom: 3rem;
 }
 
@@ -357,7 +340,7 @@ footer a:hover {
   font-size: 1.05rem;
   line-height: 1.65;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-fg-soft);
   max-width: 60ch;
   margin-bottom: 5rem;
 }
@@ -454,9 +437,6 @@ footer a:hover {
   height: auto;
   object-fit: contain;
   display: block;
-}
-
-.lightbox-content img {
   cursor: zoom-out;
 }
 

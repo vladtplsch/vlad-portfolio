@@ -4,6 +4,7 @@
  * 1. Données des projets (à éditer pour changer le contenu)
  * 2. Pagination : génération des points + suivi de la section active
  * 3. Page de détail : ouverture / fermeture, gestion du focus
+ * 4. Lightbox : aperçu plein écran d'une image ou de la vidéo
  * ------------------------------------------------------------------
  */
 
@@ -60,10 +61,10 @@ const projects = [
    ========================================================================== */
 const scrollContainer = document.getElementById('scrollContainer');
 const paginationEl = document.getElementById('pagination');
+
+// Ne cible que les vraies sections projet : l'intro a sa propre classe
+// ("intro") et n'est donc jamais sélectionnée ici.
 const sections = Array.from(document.querySelectorAll('.project-section'));
-// Seules les sections avec data-project correspondent à une entrée de `projects`
-// (la section d'intro n'en a pas).
-const projectSections = sections.filter((section) => section.dataset.project !== undefined);
 
 // Génère un point de pagination par projet.
 const dots = sections.map((section, index) => {
@@ -71,7 +72,7 @@ const dots = sections.map((section, index) => {
   dot.className = 'dot';
   dot.type = 'button';
   const project = projects[Number(section.dataset.project)];
-  dot.setAttribute('aria-label', project ? `Aller au projet : ${project.title}` : 'Aller à l\'intro');
+  dot.setAttribute('aria-label', `Aller au projet : ${project.title}`);
   if (index === 0) {
     dot.classList.add('active');
     dot.setAttribute('aria-current', 'true');
@@ -172,6 +173,29 @@ function hideAfterTransition(element, onHidden) {
   const fallback = setTimeout(finish, 600);
 }
 
+/**
+ * Garde le focus clavier à l'intérieur d'un overlay ouvert (détail ou
+ * lightbox) : Tab depuis le dernier élément focusable revient au premier,
+ * et Maj+Tab depuis le premier va au dernier.
+ */
+function trapFocus(container, event) {
+  const focusable = container.querySelectorAll(
+    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  );
+  if (!focusable.length) return;
+
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function openDetail(index) {
   const project = projects[index];
 
@@ -182,7 +206,9 @@ function openDetail(index) {
 
   detailImages.innerHTML = '';
 
-  // Vidéo du projet, si elle existe : en boucle, silencieuse, pleine largeur.
+  // Vidéo du projet, si elle existe : en boucle, silencieuse, plein cadre.
+  // Pas de contrôles natifs : leur zone cliquable entrerait en conflit avec
+  // le clic qui agrandit la vidéo dans la lightbox (comme pour les images).
   if (project.video) {
     const video = document.createElement('video');
     video.src = project.video;
@@ -191,17 +217,42 @@ function openDetail(index) {
     video.muted = true;
     video.autoplay = true;
     video.playsInline = true;
-    video.controls = true;
-    video.addEventListener('click', () => openLightboxVideo(video));
+    video.tabIndex = 0;
+    video.setAttribute('role', 'button');
+    video.setAttribute('aria-label', 'Agrandir la vidéo');
+
+    const toggleVideoLightbox = () => {
+      if (lightboxOpen) {
+        closeLightbox();
+      } else {
+        openLightboxVideo(video);
+      }
+    };
+
+    video.addEventListener('click', toggleVideoLightbox);
+    video.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleVideoLightbox();
+      }
+    });
     detailImages.appendChild(video);
   }
 
-  project.images.forEach((src) => {
+  project.images.forEach((src, i) => {
     const img = document.createElement('img');
     img.src = src;
-    img.alt = `Visuel détaillé — ${project.title}`;
+    img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
     img.loading = 'lazy';
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
     img.addEventListener('click', () => openLightboxImage(src, img.alt));
+    img.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openLightboxImage(src, img.alt);
+      }
+    });
     detailImages.appendChild(img);
   });
 
@@ -309,7 +360,7 @@ lightbox.addEventListener('click', (event) => {
 
 lightboxClose.addEventListener('click', closeLightbox);
 
-projectSections.forEach((section) => {
+sections.forEach((section) => {
   const index = Number(section.dataset.project);
 
   section.addEventListener('click', () => openDetail(index));
@@ -327,12 +378,18 @@ detailClose.addEventListener('click', closeDetail);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    // On teste `hidden` plutôt que la classe d'animation : c'est l'état réel
-    // de l'overlay, donc la fermeture marche même si la transition n'a pas eu lieu.
+    // On teste l'état réel de l'overlay (pas la classe d'animation ni
+    // `hidden`) : la fermeture marche même si la transition n'a pas eu lieu.
     if (lightboxOpen) {
       closeLightbox();
     } else if (detailOpen) {
       closeDetail();
+    }
+  } else if (event.key === 'Tab') {
+    if (lightboxOpen) {
+      trapFocus(lightbox, event);
+    } else if (detailOpen) {
+      trapFocus(detail, event);
     }
   }
 });
