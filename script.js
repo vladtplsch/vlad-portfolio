@@ -217,6 +217,7 @@ function openDetail(index) {
     video.muted = true;
     video.autoplay = true;
     video.playsInline = true;
+    video.preload = 'metadata';
     video.tabIndex = 0;
     video.setAttribute('role', 'button');
     video.setAttribute('aria-label', 'Agrandir la vidéo');
@@ -268,7 +269,6 @@ function openDetail(index) {
   detail.classList.add('active');
 
   detail.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
   detailClose.focus();
 }
 
@@ -276,7 +276,6 @@ function closeDetail() {
   if (!detailOpen) return;
   detailOpen = false;
   detail.classList.remove('active');
-  document.body.style.overflow = '';
   hideAfterTransition(detail);
 
   if (lastFocusedElement) {
@@ -304,7 +303,6 @@ function showLightbox() {
   lightbox.hidden = false;
   void lightbox.offsetWidth; // force le recalcul avant la transition
   lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
   lightboxClose.focus();
 }
 
@@ -331,8 +329,6 @@ function closeLightbox() {
   if (!lightboxOpen) return;
   lightboxOpen = false;
   lightbox.classList.remove('active');
-  // La page projet reste ouverte derrière : on garde le scroll verrouillé.
-  document.body.style.overflow = detailOpen ? 'hidden' : '';
 
   hideAfterTransition(lightbox, () => {
     // Si une vidéo était affichée, on la remet à sa place d'origine

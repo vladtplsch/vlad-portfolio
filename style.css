@@ -78,6 +78,8 @@ footer {
   right: 0;
   z-index: 100;
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.4rem;
   justify-content: space-between;
   padding: var(--space-page-y) var(--space-page-x);
   font-size: 0.85rem;
@@ -121,6 +123,7 @@ footer a:hover {
   height: 100vh;
   height: 100dvh; /* évite les sauts liés à la barre d'adresse mobile */
   overflow-y: scroll;
+  overflow-x: hidden;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
@@ -234,11 +237,12 @@ footer a:hover {
 }
 
 .project-title {
-  font-size: 10.5vw;
+  font-size: clamp(2.25rem, 9vw, 11rem);
   font-weight: 200;
   letter-spacing: -0.05em;
   line-height: 0.72;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -276,6 +280,7 @@ footer a:hover {
   z-index: 200;
   background: var(--color-bg);
   overflow-y: auto;
+  overscroll-behavior: contain; /* empêche le scroll de fuiter vers la page derrière sur mobile */
   opacity: 0;
   pointer-events: none; /* tant qu'il n'est pas actif, il ne capte aucun clic */
   transform: translateY(2rem);
@@ -296,9 +301,10 @@ footer a:hover {
 
 .detail-close {
   position: fixed;
-  top: var(--space-page-y);
-  left: var(--space-page-x);
+  top: calc(var(--space-page-y) - 0.75rem);
+  left: calc(var(--space-page-x) - 0.75rem);
   z-index: 210;
+  padding: 0.75rem;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   background: none;
@@ -333,6 +339,8 @@ footer a:hover {
   font-weight: 200;
   letter-spacing: -0.04em;
   line-height: 0.95;
+  overflow-wrap: break-word;
+  hyphens: auto;
   margin-bottom: 3rem;
 }
 
@@ -367,8 +375,10 @@ footer a:hover {
 .detail-video {
   grid-column: 1 / -1; /* occupe toute la largeur de la grille, même en 2 colonnes */
   width: 100%;
+  aspect-ratio: 16 / 9; /* à ajuster au ratio réel de ta vidéo si besoin */
   display: block;
   cursor: zoom-in;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 @media (max-width: 640px) {
@@ -404,9 +414,10 @@ footer a:hover {
 
 .lightbox-close {
   position: fixed;
-  top: var(--space-page-y);
-  left: var(--space-page-x);
+  top: calc(var(--space-page-y) - 0.75rem);
+  left: calc(var(--space-page-x) - 0.75rem);
   z-index: 310;
+  padding: 0.75rem;
   font-size: 0.85rem;
   letter-spacing: 0.08em;
   background: none;
@@ -466,7 +477,6 @@ footer a:hover {
   }
 
   .project-title {
-    font-size: 5.5rem;
     letter-spacing: -0.04em;
     line-height: 0.78;
   }
