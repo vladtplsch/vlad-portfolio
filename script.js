@@ -34,14 +34,14 @@ const projects = [
   },
   {
     tag: 'affiche',
-    year: 'workshop – 2026',
+    year: 'workshop – 2024',
     title: 'affiche workshop',
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition repose sur une superposition de couleurs, chaque couche venant enrichir l'image jusqu'à révéler l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
     tag: 'affiche / flyer',
-    year: 'design – 2026',
+    year: 'design – 2025',
     title: 'affiche nifff',
     text: "Pour le Nifff, j'ai réalisé un visage par collage, à partir de fragments d'images tirées de films du festival. Cette figure hybride associe cinéma et papier découpé, structurée par une composition typographique pensée pour accompagner l'affiche.",
     images: ['images/nifff.jpg'],
