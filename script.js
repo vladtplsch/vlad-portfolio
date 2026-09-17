@@ -19,7 +19,6 @@ const projects = [
     year: 'projet graphique – 2026',
     title: "agend'archive",
     text: "Projet réalisé dans le cadre de mes études en graphisme, à partir d'une récolte d'archives de l'école. Le travail d'édition joue sur la transparence grâce à une feuille de calque insérée entre les pages, et une micro-typographie vient ponctuer discrètement la lecture des documents.",
-    video: 'images/video agenda.mp4',
     images: [
       'images/Présentation agenda_Final copie_Page_02.jpg',
       'images/Présentation agenda_Final copie_Page_03.jpg',
@@ -206,40 +205,6 @@ function openDetail(index) {
 
   detailImages.innerHTML = '';
 
-  // Vidéo du projet, si elle existe : en boucle, silencieuse, plein cadre.
-  // Pas de contrôles natifs : leur zone cliquable entrerait en conflit avec
-  // le clic qui agrandit la vidéo dans la lightbox (comme pour les images).
-  if (project.video) {
-    const video = document.createElement('video');
-    video.src = project.video;
-    video.className = 'detail-video';
-    video.loop = true;
-    video.muted = true;
-    video.autoplay = true;
-    video.playsInline = true;
-    video.preload = 'metadata';
-    video.tabIndex = 0;
-    video.setAttribute('role', 'button');
-    video.setAttribute('aria-label', 'Agrandir la vidéo');
-
-    const toggleVideoLightbox = () => {
-      if (lightboxOpen) {
-        closeLightbox();
-      } else {
-        openLightboxVideo(video);
-      }
-    };
-
-    video.addEventListener('click', toggleVideoLightbox);
-    video.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        toggleVideoLightbox();
-      }
-    });
-    detailImages.appendChild(video);
-  }
-
   project.images.forEach((src, i) => {
     const img = document.createElement('img');
     img.src = src;
@@ -247,11 +212,11 @@ function openDetail(index) {
     img.loading = 'lazy';
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
-    img.addEventListener('click', () => openLightboxImage(src, img.alt));
+    img.addEventListener('click', () => openLightboxImage(project.images, i, project.title));
     img.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        openLightboxImage(src, img.alt);
+        openLightboxImage(project.images, i, project.title);
       }
     });
     detailImages.appendChild(img);
@@ -291,13 +256,36 @@ const lightboxClose = document.getElementById('lightboxClose');
 const lightboxContent = document.getElementById('lightboxContent');
 
 let lastFocusedBeforeLightbox = null;
-// Quand une vidéo est mise en plein écran, on déplace le vrai noeud <video>
-// (plutôt que d'en cloner un) pour qu'elle continue de jouer sans coupure.
-// On garde une référence à sa place d'origine pour l'y remettre à la fermeture.
-let videoOriginalParent = null;
-let videoOriginalNextSibling = null;
 
-function showLightbox() {
+// Images du projet actuellement affiché dans la lightbox, et index courant :
+// cliquer sur l'image passe à la suivante (et boucle après la dernière).
+let lightboxImages = [];
+let lightboxIndex = 0;
+let lightboxProjectTitle = '';
+
+function renderLightboxImage() {
+  const src = lightboxImages[lightboxIndex];
+  lightboxContent.innerHTML = '';
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = `Visuel détaillé ${lightboxIndex + 1} — ${lightboxProjectTitle}`;
+  // Cliquer sur l'image passe à la suivante (boucle à la fin) ; le bouton
+  // « fermer » reste le seul moyen de quitter la lightbox, à tout moment.
+  img.addEventListener('click', () => showLightboxImage(1));
+  lightboxContent.appendChild(img);
+}
+
+function showLightboxImage(delta) {
+  lightboxIndex = (lightboxIndex + delta + lightboxImages.length) % lightboxImages.length;
+  renderLightboxImage();
+}
+
+function openLightboxImage(images, index, projectTitle) {
+  lightboxImages = images;
+  lightboxIndex = index;
+  lightboxProjectTitle = projectTitle;
+  renderLightboxImage();
+
   lightboxOpen = true;
   lastFocusedBeforeLightbox = document.activeElement;
   lightbox.hidden = false;
@@ -306,40 +294,14 @@ function showLightbox() {
   lightboxClose.focus();
 }
 
-function openLightboxImage(src, alt) {
-  lightboxContent.innerHTML = '';
-  const img = document.createElement('img');
-  img.src = src;
-  img.alt = alt;
-  // Cliquer sur l'image agrandie referme le lightbox (comportement classique).
-  img.addEventListener('click', closeLightbox);
-  lightboxContent.appendChild(img);
-  showLightbox();
-}
-
-function openLightboxVideo(video) {
-  videoOriginalParent = video.parentNode;
-  videoOriginalNextSibling = video.nextSibling;
-  lightboxContent.innerHTML = '';
-  lightboxContent.appendChild(video);
-  showLightbox();
-}
-
 function closeLightbox() {
   if (!lightboxOpen) return;
   lightboxOpen = false;
   lightbox.classList.remove('active');
 
   hideAfterTransition(lightbox, () => {
-    // Si une vidéo était affichée, on la remet à sa place d'origine
-    // dans la page détail plutôt que de la détruire.
-    const video = lightboxContent.querySelector('video');
-    if (video && videoOriginalParent) {
-      videoOriginalParent.insertBefore(video, videoOriginalNextSibling);
-    }
-    videoOriginalParent = null;
-    videoOriginalNextSibling = null;
     lightboxContent.innerHTML = '';
+    lightboxImages = [];
   });
 
   if (lastFocusedBeforeLightbox) {
@@ -347,14 +309,14 @@ function closeLightbox() {
   }
 }
 
-// Cliquer sur le fond noir (en dehors de l'image/vidéo) referme le lightbox.
+lightboxClose.addEventListener('click', closeLightbox);
+
+// Cliquer sur le fond noir (en dehors de l'image) referme le lightbox.
 lightbox.addEventListener('click', (event) => {
   if (event.target === lightbox) {
     closeLightbox();
   }
 });
-
-lightboxClose.addEventListener('click', closeLightbox);
 
 sections.forEach((section) => {
   const index = Number(section.dataset.project);
@@ -386,6 +348,12 @@ document.addEventListener('keydown', (event) => {
       trapFocus(lightbox, event);
     } else if (detailOpen) {
       trapFocus(detail, event);
+    }
+  } else if (lightboxOpen && lightboxImages.length > 1) {
+    if (event.key === 'ArrowRight') {
+      showLightboxImage(1);
+    } else if (event.key === 'ArrowLeft') {
+      showLightboxImage(-1);
     }
   }
 });

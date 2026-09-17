@@ -372,15 +372,6 @@ footer a:hover {
   background: rgba(255, 255, 255, 0.03); /* place-holder discret pendant le chargement */
 }
 
-.detail-video {
-  grid-column: 1 / -1; /* occupe toute la largeur de la grille, même en 2 colonnes */
-  width: 100%;
-  aspect-ratio: 16 / 9; /* à ajuster au ratio réel de ta vidéo si besoin */
-  display: block;
-  cursor: zoom-in;
-  background: rgba(255, 255, 255, 0.03);
-}
-
 @media (max-width: 640px) {
   .detail-images {
     grid-template-columns: 1fr;
@@ -440,15 +431,14 @@ footer a:hover {
   justify-content: center;
 }
 
-.lightbox-content img,
-.lightbox-content video {
+.lightbox-content img {
   max-width: 92vw;
   max-height: 92vh;
   width: auto;
   height: auto;
   object-fit: contain;
   display: block;
-  cursor: zoom-out;
+  cursor: pointer;
 }
 
 /* ---------- Responsive ---------- */
