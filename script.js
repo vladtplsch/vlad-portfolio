@@ -55,8 +55,6 @@ const projects = [
     
       'images/bico01.jpeg',
       'images/bico02.jpeg',
-      'images/bico+2.jpg',
-      'images/bico logo.svg',
     ],
   },
   {
