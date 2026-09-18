@@ -6,6 +6,7 @@
  * 3. Pagination : génération des points + suivi de la section active
  * 4. Page de détail : ouverture / fermeture, gestion du focus
  * 5. Lightbox : aperçu plein écran d'une image
+ * 6. Curseur personnalisé : petit cercle qui suit la souris
  * ------------------------------------------------------------------
  */
 
@@ -37,15 +38,15 @@ const projects = [
   {
     tag: 'affiche',
     year: 'workshop – 2024',
-    title: 'workshop',
+    title: 'workshop guillaume besson',
     cover: { src: 'images/IMG_2607.jpg', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
-    tag: 'affiche',
+    tag: 'affiche / flyer',
     year: 'design – 2025',
-    title: 'nifff',
+    title: 'affiche nifff',
     cover: { src: 'images/nifff.jpg', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
     images: ['images/nifff.jpg'],
@@ -65,14 +66,14 @@ const projects = [
   {
     tag: 'flyer',
     year: '2026',
-    title: 'pavillon sicli',
+    title: 'flyer pavillon sicli',
     cover: { src: 'images/thomas01.png', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
     text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
-      'images/thomas00.png',
+      'images/thomas00.jpg',
       'images/thomas02.png',
       'images/thomas04.png',
-      'images/thomas00.png',
+      'images/thomas00.jpg',
     ],
   },
 ];
@@ -432,3 +433,40 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
+/* ==========================================================================
+   6. Curseur personnalisé
+   Un petit cercle qui suit la souris et grossit sur les éléments cliquables
+   (le style, en mix-blend-mode: difference, s'occupe de l'inversion des
+   couleurs). Seulement sur souris/trackpad : sur tactile il n'y a pas de
+   pointeur à suivre, la piste est donc coupée dès le départ.
+   ========================================================================== */
+const canUseCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+const cursorDot = document.getElementById('cursorDot');
+
+if (canUseCustomCursor && cursorDot) {
+  document.addEventListener('mousemove', (event) => {
+    cursorDot.style.left = `${event.clientX}px`;
+    cursorDot.style.top = `${event.clientY}px`;
+    cursorDot.classList.add('is-visible');
+  });
+
+  // Le curseur ne doit pas rester visible s'il sort de la fenêtre.
+  document.addEventListener('mouseleave', () => {
+    cursorDot.classList.remove('is-visible');
+  });
+
+  // Grossit au survol de tout ce qui est cliquable, y compris ce qui est
+  // généré dynamiquement (sections projet, points de pagination, images).
+  document.addEventListener('mouseover', (event) => {
+    if (event.target.closest('a, button, [role="button"]')) {
+      cursorDot.classList.add('is-hovering');
+    }
+  });
+
+  document.addEventListener('mouseout', (event) => {
+    if (event.target.closest('a, button, [role="button"]')) {
+      cursorDot.classList.remove('is-hovering');
+    }
+  });
+}

@@ -19,6 +19,12 @@
   --color-fg-muted: rgba(255, 255, 255, 0.5);
   --color-fg-faint: rgba(255, 255, 255, 0.3);
 
+  /* Cycle de fond de la page d'accueil : noir, blanc, gris, argenté. */
+  --intro-bg-1: #000000;
+  --intro-bg-2: #ffffff;
+  --intro-bg-3: #6e6e6e;
+  --intro-bg-4: #c4c4c4;
+
   --font-family: 'akzidenz-grotesk', 'akzidenz grotesk', helvetica, sans-serif;
 
   --space-page-x: 4rem;
@@ -102,6 +108,11 @@ nav a,
 footer span,
 footer a {
   pointer-events: all;
+  color: #ffffff;
+  /* Le header/footer restent fixes par-dessus toutes les sections (y compris
+     l'intro dont le fond change de couleur) : sans l'inversion, ce texte
+     blanc disparaîtrait dès que le fond derrière devient clair. */
+  mix-blend-mode: difference;
 }
 
 .logo span {
@@ -145,6 +156,49 @@ footer a:hover {
 
 .project-section {
   cursor: pointer;
+}
+
+/* ---------- Page d'accueil : fond en boucle + typo qui s'inverse ---------- */
+/* Le fond de l'intro parcourt noir → blanc → gris → argenté en boucle. */
+.intro {
+  background-color: var(--intro-bg-1);
+  animation: intro-bg-cycle 10s linear infinite;
+}
+
+@keyframes intro-bg-cycle {
+  0%,
+  100% {
+    background-color: var(--intro-bg-1);
+  }
+  25% {
+    background-color: var(--intro-bg-2);
+  }
+  50% {
+    background-color: var(--intro-bg-3);
+  }
+  75% {
+    background-color: var(--intro-bg-4);
+  }
+}
+
+/* Le texte reste blanc, mais en mode "difference" sa couleur perçue
+   s'inverse automatiquement selon ce qu'il y a derrière : pas besoin de
+   synchroniser une couleur de texte avec chaque étape du cycle. */
+.intro .project-tag,
+.intro .project-year,
+.intro .intro-link {
+  color: #ffffff;
+  text-shadow: none; /* les ombres, pensées pour les photos, brouillent l'effet sur un fond de couleur plate */
+  mix-blend-mode: difference;
+}
+
+/* Un cycle de couleurs qui tourne en boucle peut être inconfortable, voire
+   risqué, pour les personnes sensibles aux flashs : on le fige sur noir. */
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    animation: none;
+    background-color: var(--intro-bg-1);
+  }
 }
 
 /* .project-content coupe les clics : on les rétablit sur le sommaire. */
@@ -264,6 +318,7 @@ footer a:hover {
   padding: 0;
   border: none;
   background-color: var(--color-fg-faint);
+  mix-blend-mode: difference;
   transition: background-color var(--ease-medium), transform var(--ease-medium);
   cursor: pointer;
 }
@@ -481,5 +536,54 @@ footer a:hover {
 
   .detail-title {
     font-size: 2.6rem;
+  }
+}
+
+/* ---------- Curseur personnalisé ---------- */
+/* Un petit cercle qui remplace le curseur et inverse les couleurs de ce
+   qu'il survole (mix-blend-mode: difference) ; il grossit légèrement sur
+   les éléments cliquables pour signaler qu'on peut interagir. Uniquement
+   sur les appareils à pointeur précis (souris/trackpad) : sur tactile, il
+   n'a pas de sens et resterait planté au dernier point touché. */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button,
+  [role='button'] {
+    cursor: none;
+  }
+
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity var(--ease-fast), width var(--ease-fast), height var(--ease-fast);
+  }
+
+  .cursor-dot.is-visible {
+    opacity: 1;
+  }
+
+  .cursor-dot.is-hovering {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot {
+    display: none;
   }
 }
