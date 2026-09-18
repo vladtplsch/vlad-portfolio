@@ -32,67 +32,16 @@
     <section class="intro" id="intro">
       <div class="project-content">
         <span class="project-meta project-tag">portfolio</span>
-        <nav class="intro-nav" aria-label="Sommaire des projets">
-          <a class="intro-link" href="#project-0">agend'archive</a>
-          <a class="intro-link" href="#project-1">workshop</a>
-          <a class="intro-link" href="#project-2">nifff</a>
-          <a class="intro-link" href="#project-3">collaboration bico</a>
-          <a class="intro-link" href="#project-4">pavillon sicli</a>
-        </nav>
+        <!-- Sommaire des projets : généré par script.js depuis le tableau
+             "projects", pour rester toujours en phase avec les titres réels. -->
+        <nav class="intro-nav" id="introNav" aria-label="Sommaire des projets"></nav>
         <span class="project-meta project-year">2026</span>
       </div>
     </section>
 
-    <section class="project-section" id="project-0" data-project="0" tabindex="0"
-              role="button" aria-haspopup="dialog" aria-label="Voir le projet : agend'archive">
-      <img src="images/IMG_2605.jpg" alt="Couverture du projet agend'archive" class="project-bg" loading="eager">
-      <div class="project-content">
-        <span class="project-meta project-tag">édition</span>
-        <h2 class="project-title">agend'archive</h2>
-        <span class="project-meta project-year">2026</span>
-      </div>
-    </section>
-
-    <section class="project-section" id="project-1" data-project="1" tabindex="0"
-              role="button" aria-haspopup="dialog" aria-label="Voir le projet : Affiche workshop">
-      <img src="images/IMG_2607.jpg" alt="Affiche du workshop typographique" class="project-bg" loading="lazy">
-      <div class="project-content">
-        <span class="project-meta project-tag">affiche</span>
-        <h2 class="project-title">affiche workshop</h2>
-        <span class="project-meta project-year">2026</span>
-      </div>
-    </section>
-
-    <section class="project-section" id="project-2" data-project="2" tabindex="0"
-              role="button" aria-haspopup="dialog" aria-label="Voir le projet : Affiche Nifff">
-      <img src="images/nifff.jpg" alt="Affiche du Nifff" class="project-bg" loading="lazy">
-      <div class="project-content">
-        <span class="project-meta project-tag">affiche</span>
-        <h2 class="project-title">affiche nifff</h2>
-        <span class="project-meta project-year">2026</span>
-      </div>
-    </section>
-
-    <section class="project-section" id="project-3" data-project="3" tabindex="0"
-              role="button" aria-haspopup="dialog" aria-label="Voir le projet : Collaboration bico">
-      <img src="images/bico01.jpeg"
-           alt="Création de deux pulls pour la marque suisse Bico" class="project-bg" loading="lazy">
-      <div class="project-content">
-        <span class="project-meta project-tag">collaboration bico</span>
-        <h2 class="project-title">collaboration bico</h2>
-        <span class="project-meta project-year">2026</span>
-      </div>
-    </section>
-
-    <section class="project-section" id="project-4" data-project="4" tabindex="0"
-              role="button" aria-haspopup="dialog" aria-label="Voir le projet : Flyer pavillon Sicli">
-      <img src="images/thomas01.png" alt="Flyer pour la programmation de films au Pavillon Sicli" class="project-bg" loading="lazy">
-      <div class="project-content">
-        <span class="project-meta project-tag">flyer</span>
-        <h2 class="project-title">flyer pavillon sicli</h2>
-        <span class="project-meta project-year">2026</span>
-      </div>
-    </section>
+    <!-- Les sections projet (image de couverture, tag, titre, année) sont
+         générées par script.js à partir du tableau "projects" : une seule
+         source de vérité, partagée avec la page de détail et la pagination. -->
 
   </main>
 
@@ -115,7 +64,7 @@
     </div>
   </div>
 
-  <!-- Lightbox : agrandit en plein écran l'image ou la vidéo cliquée dans la page détail -->
+  <!-- Lightbox : agrandit en plein écran l'image cliquée dans la page détail -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu en plein écran" hidden>
     <button class="lightbox-close" id="lightboxClose" type="button">fermer <span aria-hidden="true">×</span></button>
     <div class="lightbox-content" id="lightboxContent"></div>

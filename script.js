@@ -2,9 +2,10 @@
  * Toplitsch Vladimir — Portfolio
  * ------------------------------------------------------------------
  * 1. Données des projets (à éditer pour changer le contenu)
- * 2. Pagination : génération des points + suivi de la section active
- * 3. Page de détail : ouverture / fermeture, gestion du focus
- * 4. Lightbox : aperçu plein écran d'une image ou de la vidéo
+ * 2. Génération du sommaire et des sections projet depuis les données
+ * 3. Pagination : génération des points + suivi de la section active
+ * 4. Page de détail : ouverture / fermeture, gestion du focus
+ * 5. Lightbox : aperçu plein écran d'une image
  * ------------------------------------------------------------------
  */
 
@@ -18,6 +19,7 @@ const projects = [
     tag: 'édition',
     year: 'projet graphique – 2026',
     title: "agend'archive",
+    cover: { src: 'images/IMG_2605.jpg', alt: "Couverture du projet agend'archive" },
     text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
     images: [
       'images/Présentation agenda_Final copie_Page_02.jpg',
@@ -35,14 +37,16 @@ const projects = [
   {
     tag: 'affiche',
     year: 'workshop – 2024',
-    title: 'workshop guillaume besson',
+    title: 'workshop',
+    cover: { src: 'images/IMG_2607.jpg', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
-    tag: 'affiche / flyer',
+    tag: 'affiche',
     year: 'design – 2025',
-    title: 'affiche nifff',
+    title: 'nifff',
+    cover: { src: 'images/nifff.jpg', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
     images: ['images/nifff.jpg'],
   },
@@ -50,6 +54,7 @@ const projects = [
     tag: 'collaboration bico',
     year: '2026',
     title: 'collaboration bico',
+    cover: { src: 'images/bico01.jpeg', alt: 'Création de deux pulls pour la marque suisse Bico' },
     text: "Contacté par la marque suisse Bico pour concevoir sa nouvelle collection, j'ai conçu ces deux pulls autour de la broderie et de l'impression à chaud. Deux techniques exigeantes, qui font dialoguer précision textile et geste graphique plus brut.",
     images: [
     
@@ -60,7 +65,8 @@ const projects = [
   {
     tag: 'flyer',
     year: '2026',
-    title: 'flyer pavillon sicli',
+    title: 'pavillon sicli',
+    cover: { src: 'images/thomas01.png', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
     text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
       'images/thomas00.jpg',
@@ -72,7 +78,60 @@ const projects = [
 ];
 
 /* ==========================================================================
-   2. Pagination
+   2. Génération du contenu depuis les données
+   Le titre, le tag, l'année et l'image de couverture de chaque projet ne
+   vivent qu'à un seul endroit (le tableau "projects" ci-dessus). Le sommaire
+   de l'intro et les sections projet sont construits à partir de lui, pour
+   qu'il ne puisse jamais y avoir de désaccord entre la carte et le détail.
+   ========================================================================== */
+const introNav = document.getElementById('introNav');
+const projectsMain = document.getElementById('scrollContainer');
+
+// Dans le champ "year" ("workshop – 2024", "projet graphique – 2026"…),
+// seule l'année à 4 chiffres est affichée sur la carte ; la page de détail,
+// elle, garde la mention complète.
+function extractCardYear(year) {
+  const match = year.match(/\d{4}/);
+  return match ? match[0] : year;
+}
+
+projects.forEach((project, index) => {
+  const link = document.createElement('a');
+  link.className = 'intro-link';
+  link.href = `#project-${index}`;
+  link.textContent = project.title;
+  introNav.appendChild(link);
+
+  const section = document.createElement('section');
+  section.className = 'project-section';
+  section.id = `project-${index}`;
+  section.dataset.project = String(index);
+  section.tabIndex = 0;
+  section.setAttribute('role', 'button');
+  section.setAttribute('aria-haspopup', 'dialog');
+  section.setAttribute('aria-label', `Voir le projet : ${project.title}`);
+
+  const img = document.createElement('img');
+  img.src = project.cover.src;
+  img.alt = project.cover.alt;
+  img.className = 'project-bg';
+  img.loading = index === 0 ? 'eager' : 'lazy';
+  section.appendChild(img);
+
+  const content = document.createElement('div');
+  content.className = 'project-content';
+  content.innerHTML = `
+    <span class="project-meta project-tag">${project.tag}</span>
+    <h2 class="project-title">${project.title}</h2>
+    <span class="project-meta project-year">${extractCardYear(project.year)}</span>
+  `;
+  section.appendChild(content);
+
+  projectsMain.appendChild(section);
+});
+
+/* ==========================================================================
+   3. Pagination
    ========================================================================== */
 const scrollContainer = document.getElementById('scrollContainer');
 const paginationEl = document.getElementById('pagination');
@@ -141,7 +200,7 @@ if (introSection) {
 }
 
 /* ==========================================================================
-   3. Page de détail
+   4. Page de détail
    ========================================================================== */
 const detail = document.getElementById('detail');
 const detailClose = document.getElementById('detailClose');
@@ -265,7 +324,7 @@ function closeDetail() {
 }
 
 /* ==========================================================================
-   4. Lightbox (aperçu plein écran d'une image ou de la vidéo)
+   5. Lightbox (aperçu plein écran d'une image)
    ========================================================================== */
 const lightbox = document.getElementById('lightbox');
 const lightboxClose = document.getElementById('lightboxClose');
