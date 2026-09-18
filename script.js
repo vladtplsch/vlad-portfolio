@@ -18,7 +18,7 @@ const projects = [
     tag: 'édition',
     year: 'projet graphique – 2026',
     title: "agend'archive",
-    text: "Projet réalisé dans le cadre de mes études en graphisme, à partir d'une récolte d'archives de l'école. Le travail d'édition joue sur la transparence grâce à une feuille de calque insérée entre les pages, et une micro-typographie vient ponctuer discrètement la lecture des documents.",
+    text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
     images: [
       'images/Présentation agenda_Final copie_Page_02.jpg',
       'images/Présentation agenda_Final copie_Page_03.jpg',
@@ -35,23 +35,41 @@ const projects = [
   {
     tag: 'affiche',
     year: 'workshop – 2024',
-    title: 'affiche workshop',
-    text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition repose sur une superposition de couleurs, chaque couche venant enrichir l'image jusqu'à révéler l'affiche finale.",
+    title: 'workshop guillaume besson',
+    text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
     tag: 'affiche / flyer',
     year: 'design – 2025',
     title: 'affiche nifff',
-    text: "Pour le Nifff, j'ai réalisé un visage par collage, à partir de fragments d'images tirées de films du festival. Cette figure hybride associe cinéma et papier découpé, structurée par une composition typographique pensée pour accompagner l'affiche.",
+    text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
     images: ['images/nifff.jpg'],
   },
   {
     tag: 'collaboration bico',
     year: '2026',
     title: 'collaboration bico',
-    text: "Créer ces deux pulls en collaboration avec la marque suisse Bico est l'un des projets qui m'a le plus donné envie d'aller au bout d'une idée. J'y ai exploré la broderie et l'impression à chaud, deux techniques exigeantes que j'aime pour le dialogue qu'elles créent entre précision textile et geste graphique plus brut.",
-    images: ['images/IMG_5246.jpeg'],
+    text: "Contacté par la marque suisse Bico pour concevoir sa nouvelle collection, j'ai conçu ces deux pulls autour de la broderie et de l'impression à chaud. Deux techniques exigeantes, qui font dialoguer précision textile et geste graphique plus brut.",
+    images: [
+    
+      'images/bico01.jpeg',
+      'images/bico02.jpeg',
+      'images/bico+2.jpg',
+      'images/bico logo.svg',
+    ],
+  },
+  {
+    tag: 'flyer',
+    year: '2026',
+    title: 'flyer pavillon sicli',
+    text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
+    images: [
+      'images/thomas00.jpg',
+      'images/thomas02.png',
+      'images/thomas04.png',
+      'images/thomas00.jpg',
+    ],
   },
 ];
 
