@@ -38,13 +38,13 @@ const projects = [
   {
     tag: 'affiche',
     year: 'workshop – 2024',
-    title: 'workshop guillaume besson',
+    title: 'workshop',
     cover: { src: 'images/IMG_2607.jpg', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: ['images/IMG_2607.jpg'],
   },
   {
-    tag: 'affiche / flyer',
+    tag: 'affiche',
     year: 'design – 2025',
     title: 'affiche nifff',
     cover: { src: 'images/nifff.jpg', alt: 'Affiche du Nifff' },
@@ -52,7 +52,7 @@ const projects = [
     images: ['images/nifff.jpg'],
   },
   {
-    tag: 'collaboration bico',
+    tag: 'textile',
     year: '2026',
     title: 'collaboration bico',
     cover: { src: 'images/bico01.jpeg', alt: 'Création de deux pulls pour la marque suisse Bico' },
@@ -66,7 +66,7 @@ const projects = [
   {
     tag: 'flyer',
     year: '2026',
-    title: 'flyer pavillon sicli',
+    title: 'pavillon sicli',
     cover: { src: 'images/thomas01.png', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
     text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
@@ -96,11 +96,47 @@ function extractCardYear(year) {
   return match ? match[0] : year;
 }
 
+// Découpe le texte d'un lien en lettres animables individuellement (entrée
+// depuis la gauche, en grand, qui se resserrent à leur taille finale). Le mot
+// entier reste accessible via aria-label : chaque lettre, elle, est purement
+// décorative (aria-hidden) pour qu'un lecteur d'écran ne l'épelle pas.
+function animateLettersIn(link, text, startDelayMs) {
+  link.setAttribute('aria-label', text);
+  link.textContent = '';
+  Array.from(text).forEach((char, i) => {
+    const letter = document.createElement('span');
+    letter.className = 'letter';
+    // Un espace normal, une fois posé dans un span en display:inline-block,
+    // est rogné par le navigateur (largeur nulle) : on utilise une espace
+    // insécable, invisible à l'œil mais jamais collapsée.
+    letter.textContent = char === ' ' ? '\u00A0' : char;
+    letter.setAttribute('aria-hidden', 'true');
+    letter.style.animationDelay = `${startDelayMs + i * 22}ms`;
+    link.appendChild(letter);
+  });
+}
+
+// Empêche qu'une ligne se termine sur un petit mot de liaison (moins de 4
+// lettres : "de", "un", "et"…) en le soudant au mot suivant par une espace
+// insécable. Le mot ne peut alors plus se retrouver seul en fin de ligne.
+function preventOrphans(text) {
+  const words = text.split(' ');
+  let result = '';
+  words.forEach((word, i) => {
+    result += word;
+    if (i < words.length - 1) {
+      const bare = word.replace(/[.,;:!?"'«»)\]]+$/g, '');
+      result += bare.length > 0 && bare.length < 4 ? '\u00A0' : ' ';
+    }
+  });
+  return result;
+}
+
 projects.forEach((project, index) => {
   const link = document.createElement('a');
   link.className = 'intro-link';
   link.href = `#project-${index}`;
-  link.textContent = project.title;
+  animateLettersIn(link, project.title, index * 120);
   introNav.appendChild(link);
 
   const section = document.createElement('section');
@@ -117,6 +153,7 @@ projects.forEach((project, index) => {
   img.alt = project.cover.alt;
   img.className = 'project-bg';
   img.loading = index === 0 ? 'eager' : 'lazy';
+  img.decoding = 'async';
   section.appendChild(img);
 
   const content = document.createElement('div');
@@ -129,6 +166,65 @@ projects.forEach((project, index) => {
   section.appendChild(content);
 
   projectsMain.appendChild(section);
+});
+
+// Le sommaire affiche des titres de longueurs très différentes ("nifff" vs
+// "workshop guillaume besson") sur une seule colonne : à taille fixe, les
+// plus longs retournaient à la ligne ou débordaient de la fenêtre. On calcule
+// donc une taille commune qui (1) tient sur une seule ligne pour chaque titre
+// et (2) fait tenir l'ensemble du sommaire dans la hauteur disponible.
+const introSectionEl = document.getElementById('intro');
+
+function fitIntroNav() {
+  const links = Array.from(introNav.querySelectorAll('.intro-link'));
+  if (!links.length) return;
+
+  const isMobile = window.innerWidth <= 768;
+  const maxFontSize = isMobile ? 56 : 108;
+  const minFontSize = isMobile ? 20 : 26;
+
+  links.forEach((link) => { link.style.fontSize = `${maxFontSize}px`; });
+
+  const availableWidth = introNav.clientWidth;
+  // Le sommaire partage l'écran avec le tag "portfolio" et l'année : on ne
+  // lui réserve qu'une portion de la hauteur totale de l'intro.
+  const availableHeight = introSectionEl.clientHeight * 0.62;
+
+  let fontSize = maxFontSize;
+
+  // 1. Aucune ligne ne doit dépasser la largeur disponible.
+  links.forEach((link) => {
+    let size = fontSize;
+    link.style.fontSize = `${size}px`;
+    while (link.scrollWidth > availableWidth && size > minFontSize) {
+      size -= 1;
+      link.style.fontSize = `${size}px`;
+    }
+    fontSize = Math.min(fontSize, size);
+  });
+
+  // 2. La pile complète des titres doit tenir dans la hauteur disponible.
+  links.forEach((link) => { link.style.fontSize = `${fontSize}px`; });
+  const gap = parseFloat(getComputedStyle(introNav).gap) || 0;
+  let totalHeight = links.reduce((sum, l) => sum + l.offsetHeight, 0) + gap * (links.length - 1);
+
+  while (totalHeight > availableHeight && fontSize > minFontSize) {
+    fontSize -= 1;
+    links.forEach((link) => { link.style.fontSize = `${fontSize}px`; });
+    totalHeight = links.reduce((sum, l) => sum + l.offsetHeight, 0) + gap * (links.length - 1);
+  }
+}
+
+fitIntroNav();
+
+// Redimensionnement de fenêtre : on ne relance le calcul qu'une fois le
+// redimensionnement terminé (debounce), pour ne pas alourdir le scroll tactile
+// (beaucoup de mobiles déclenchent "resize" pendant l'apparition de la barre
+// d'adresse).
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(fitIntroNav, 150);
 });
 
 /* ==========================================================================
@@ -277,7 +373,7 @@ function openDetail(index) {
   detailTag.textContent = project.tag;
   detailYear.textContent = project.year;
   detailTitle.textContent = project.title;
-  detailText.textContent = project.text;
+  detailText.textContent = preventOrphans(project.text);
 
   detailImages.innerHTML = '';
 
@@ -286,6 +382,7 @@ function openDetail(index) {
     img.src = src;
     img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
     img.addEventListener('click', () => openLightboxImage(project.images, i, project.title));
@@ -445,14 +542,40 @@ const canUseCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)
 const cursorDot = document.getElementById('cursorDot');
 
 if (canUseCustomCursor && cursorDot) {
-  document.addEventListener('mousemove', (event) => {
-    cursorDot.style.left = `${event.clientX}px`;
-    cursorDot.style.top = `${event.clientY}px`;
-    cursorDot.classList.add('is-visible');
-  });
+  // top/left changent la position d'un élément fixed à chaque frame de
+  // souris, ce que le navigateur doit recalculer ; translate3d, lui, passe
+  // directement par le compositeur (GPU), sans recalcul de mise en page.
+  // rAF regroupe en plus les mouvements rapprochés en une seule mise à jour
+  // par frame plutôt que d'en empiler une par événement "mousemove".
+  let pendingX = 0;
+  let pendingY = 0;
+  let frameRequested = false;
 
-  // Le curseur ne doit pas rester visible s'il sort de la fenêtre.
-  document.addEventListener('mouseleave', () => {
+  function paintCursor() {
+    cursorDot.style.transform = `translate3d(${pendingX}px, ${pendingY}px, 0) translate(-50%, -50%)`;
+    frameRequested = false;
+  }
+
+  document.addEventListener(
+    'mousemove',
+    (event) => {
+      pendingX = event.clientX;
+      pendingY = event.clientY;
+      cursorDot.classList.add('is-visible');
+      if (!frameRequested) {
+        frameRequested = true;
+        requestAnimationFrame(paintCursor);
+      }
+    },
+    { passive: true }
+  );
+
+  // Le curseur ne doit pas rester visible s'il sort de la fenêtre — ou si
+  // la fenêtre elle-même perd le focus (ex. alt-tab vers une autre appli).
+  document.documentElement.addEventListener('mouseleave', () => {
+    cursorDot.classList.remove('is-visible');
+  });
+  window.addEventListener('blur', () => {
     cursorDot.classList.remove('is-visible');
   });
 

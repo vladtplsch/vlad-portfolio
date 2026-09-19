@@ -19,12 +19,6 @@
   --color-fg-muted: rgba(255, 255, 255, 0.5);
   --color-fg-faint: rgba(255, 255, 255, 0.3);
 
-  /* Cycle de fond de la page d'accueil : noir, blanc, gris, argenté. */
-  --intro-bg-1: #000000;
-  --intro-bg-2: #ffffff;
-  --intro-bg-3: #6e6e6e;
-  --intro-bg-4: #c4c4c4;
-
   --font-family: 'akzidenz-grotesk', 'akzidenz grotesk', helvetica, sans-serif;
 
   --space-page-x: 4rem;
@@ -108,11 +102,6 @@ nav a,
 footer span,
 footer a {
   pointer-events: all;
-  color: #ffffff;
-  /* Le header/footer restent fixes par-dessus toutes les sections (y compris
-     l'intro dont le fond change de couleur) : sans l'inversion, ce texte
-     blanc disparaîtrait dès que le fond derrière devient clair. */
-  mix-blend-mode: difference;
 }
 
 .logo span {
@@ -158,49 +147,6 @@ footer a:hover {
   cursor: pointer;
 }
 
-/* ---------- Page d'accueil : fond en boucle + typo qui s'inverse ---------- */
-/* Le fond de l'intro parcourt noir → blanc → gris → argenté en boucle. */
-.intro {
-  background-color: var(--intro-bg-1);
-  animation: intro-bg-cycle 10s linear infinite;
-}
-
-@keyframes intro-bg-cycle {
-  0%,
-  100% {
-    background-color: var(--intro-bg-1);
-  }
-  25% {
-    background-color: var(--intro-bg-2);
-  }
-  50% {
-    background-color: var(--intro-bg-3);
-  }
-  75% {
-    background-color: var(--intro-bg-4);
-  }
-}
-
-/* Le texte reste blanc, mais en mode "difference" sa couleur perçue
-   s'inverse automatiquement selon ce qu'il y a derrière : pas besoin de
-   synchroniser une couleur de texte avec chaque étape du cycle. */
-.intro .project-tag,
-.intro .project-year,
-.intro .intro-link {
-  color: #ffffff;
-  text-shadow: none; /* les ombres, pensées pour les photos, brouillent l'effet sur un fond de couleur plate */
-  mix-blend-mode: difference;
-}
-
-/* Un cycle de couleurs qui tourne en boucle peut être inconfortable, voire
-   risqué, pour les personnes sensibles aux flashs : on le fige sur noir. */
-@media (prefers-reduced-motion: reduce) {
-  .intro {
-    animation: none;
-    background-color: var(--intro-bg-1);
-  }
-}
-
 /* .project-content coupe les clics : on les rétablit sur le sommaire. */
 .intro-nav {
   pointer-events: all;
@@ -212,11 +158,43 @@ footer a:hover {
 
 .intro-link {
   display: block;
-  font-size: clamp(2rem, 5.2vw, 4.25rem);
+  /* Taille de repli avant que script.js ne calcule la taille exacte qui
+     fait tenir chaque titre sur une seule ligne (voir fitIntroNav). */
+  font-size: clamp(1.5rem, 5.2vw, 4.25rem);
   font-weight: 200;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
-  transition: opacity var(--ease-fast);
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  white-space: nowrap;
+  transition: opacity var(--ease-fast), font-size var(--ease-fast);
+}
+
+/* Entrée du sommaire, lettre par lettre : chaque caractère arrive de la
+   gauche en grand, puis se resserre fluidement à sa taille finale. */
+@keyframes intro-letter-in {
+  from {
+    opacity: 0;
+    transform: translateX(-1.4em) scale(1.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.intro-link .letter {
+  display: inline-block;
+  opacity: 0;
+  animation: intro-letter-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Un envol de 20+ lettres peut être franchement désagréable pour qui préfère
+   moins de mouvement : le texte apparaît alors directement, en place. */
+@media (prefers-reduced-motion: reduce) {
+  .intro-link .letter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .intro-link:hover,
@@ -240,6 +218,7 @@ footer a:hover {
 .project-section:focus-visible .project-bg {
   transform: scale(1.03);
   filter: brightness(0.75);
+  will-change: transform, filter;
 }
 
 /* Voile sombre entre la photo et le texte : contraste garanti quelle que
@@ -293,10 +272,11 @@ footer a:hover {
 .project-title {
   font-size: clamp(2.25rem, 9vw, 11rem);
   font-weight: 200;
-  letter-spacing: -0.05em;
-  line-height: 0.72;
+  letter-spacing: -0.055em;
+  line-height: 0.68;
   overflow-wrap: break-word;
   hyphens: auto;
+  text-wrap: balance;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -318,7 +298,6 @@ footer a:hover {
   padding: 0;
   border: none;
   background-color: var(--color-fg-faint);
-  mix-blend-mode: difference;
   transition: background-color var(--ease-medium), transform var(--ease-medium);
   cursor: pointer;
 }
@@ -375,9 +354,9 @@ footer a:hover {
 }
 
 .detail-inner {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 9rem 2rem 8rem;
+  padding: 6.5rem 2rem 6rem;
 }
 
 .detail-meta {
@@ -386,26 +365,29 @@ footer a:hover {
   font-size: 0.85rem;
   letter-spacing: 0.15em;
   color: var(--color-fg-muted);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .detail-title {
   font-size: 4rem;
   font-weight: 200;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
   overflow-wrap: break-word;
   hyphens: auto;
-  margin-bottom: 3rem;
+  text-wrap: balance;
+  margin-bottom: 2.25rem;
 }
 
 .detail-text {
   font-size: 1.05rem;
-  line-height: 1.65;
+  line-height: 1.35;
   font-weight: 300;
   color: var(--color-fg-soft);
   max-width: 60ch;
-  margin-bottom: 5rem;
+  hyphens: auto;
+  text-wrap: pretty;
+  margin-bottom: 3.5rem;
 }
 
 .detail-images {
@@ -522,8 +504,8 @@ footer a:hover {
   }
 
   .project-title {
-    letter-spacing: -0.04em;
-    line-height: 0.78;
+    letter-spacing: -0.045em;
+    line-height: 0.72;
   }
 
   .project-year {
@@ -546,14 +528,14 @@ footer a:hover {
    sur les appareils à pointeur précis (souris/trackpad) : sur tactile, il
    n'a pas de sens et resterait planté au dernier point touché. */
 @media (hover: hover) and (pointer: fine) {
-  body {
-    cursor: none;
-  }
-
-  a,
-  button,
-  [role='button'] {
-    cursor: none;
+  /* !important est nécessaire ici : plusieurs éléments déclarent leur propre
+     "cursor" (le sélecteur combiné ".dot", ".detail-close", ".lightbox-close",
+     ".detail-images img", ".lightbox-content img" est plus spécifique qu'un
+     simple "button" ou "[role='button']"). Sans ce niveau de priorité, le
+     curseur natif refaisait surface par-dessus le cercle sur ces éléments
+     précis — deux curseurs superposés au lieu d'un seul. */
+  * {
+    cursor: none !important;
   }
 
   .cursor-dot {
@@ -567,8 +549,11 @@ footer a:hover {
     mix-blend-mode: difference;
     pointer-events: none;
     z-index: 9999;
+    /* Position réelle pilotée par script.js via translate3d ; cette valeur
+       ne sert qu'avant le premier mouvement de souris. */
     transform: translate(-50%, -50%);
     opacity: 0;
+    will-change: transform;
     transition: opacity var(--ease-fast), width var(--ease-fast), height var(--ease-fast);
   }
 
