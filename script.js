@@ -168,65 +168,6 @@ projects.forEach((project, index) => {
   projectsMain.appendChild(section);
 });
 
-// Le sommaire affiche des titres de longueurs très différentes ("nifff" vs
-// "workshop guillaume besson") sur une seule colonne : à taille fixe, les
-// plus longs retournaient à la ligne ou débordaient de la fenêtre. On calcule
-// donc une taille commune qui (1) tient sur une seule ligne pour chaque titre
-// et (2) fait tenir l'ensemble du sommaire dans la hauteur disponible.
-const introSectionEl = document.getElementById('intro');
-
-function fitIntroNav() {
-  const links = Array.from(introNav.querySelectorAll('.intro-link'));
-  if (!links.length) return;
-
-  const isMobile = window.innerWidth <= 768;
-  const maxFontSize = isMobile ? 56 : 108;
-  const minFontSize = isMobile ? 20 : 26;
-
-  links.forEach((link) => { link.style.fontSize = `${maxFontSize}px`; });
-
-  const availableWidth = introNav.clientWidth;
-  // Le sommaire partage l'écran avec le tag "portfolio" et l'année : on ne
-  // lui réserve qu'une portion de la hauteur totale de l'intro.
-  const availableHeight = introSectionEl.clientHeight * 0.62;
-
-  let fontSize = maxFontSize;
-
-  // 1. Aucune ligne ne doit dépasser la largeur disponible.
-  links.forEach((link) => {
-    let size = fontSize;
-    link.style.fontSize = `${size}px`;
-    while (link.scrollWidth > availableWidth && size > minFontSize) {
-      size -= 1;
-      link.style.fontSize = `${size}px`;
-    }
-    fontSize = Math.min(fontSize, size);
-  });
-
-  // 2. La pile complète des titres doit tenir dans la hauteur disponible.
-  links.forEach((link) => { link.style.fontSize = `${fontSize}px`; });
-  const gap = parseFloat(getComputedStyle(introNav).gap) || 0;
-  let totalHeight = links.reduce((sum, l) => sum + l.offsetHeight, 0) + gap * (links.length - 1);
-
-  while (totalHeight > availableHeight && fontSize > minFontSize) {
-    fontSize -= 1;
-    links.forEach((link) => { link.style.fontSize = `${fontSize}px`; });
-    totalHeight = links.reduce((sum, l) => sum + l.offsetHeight, 0) + gap * (links.length - 1);
-  }
-}
-
-fitIntroNav();
-
-// Redimensionnement de fenêtre : on ne relance le calcul qu'une fois le
-// redimensionnement terminé (debounce), pour ne pas alourdir le scroll tactile
-// (beaucoup de mobiles déclenchent "resize" pendant l'apparition de la barre
-// d'adresse).
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(fitIntroNav, 150);
-});
-
 /* ==========================================================================
    3. Pagination
    ========================================================================== */

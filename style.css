@@ -36,6 +36,15 @@
   }
 }
 
+/* Téléphones étroits (iPhone SE, mini…) : un peu moins de marge pour le
+   header et le footer, qui sinon prennent proportionnellement plus de
+   place sur un petit écran. */
+@media (max-width: 380px) {
+  :root {
+    --space-page-x: 1.5rem;
+  }
+}
+
 /* ---------- Base ---------- */
 html,
 body {
@@ -153,19 +162,19 @@ footer a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 1.5rem;
 }
 
 .intro-link {
   display: block;
-  /* Taille de repli avant que script.js ne calcule la taille exacte qui
-     fait tenir chaque titre sur une seule ligne (voir fitIntroNav). */
-  font-size: clamp(1.5rem, 5.2vw, 4.25rem);
+  font-size: clamp(2.25rem, 9vw, 11rem);
   font-weight: 200;
-  letter-spacing: -0.05em;
-  line-height: 0.92;
-  white-space: nowrap;
-  transition: opacity var(--ease-fast), font-size var(--ease-fast);
+  letter-spacing: -0.055em;
+  line-height: 0.68;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  text-wrap: balance;
+  transition: opacity var(--ease-fast);
 }
 
 /* Entrée du sommaire, lettre par lettre : chaque caractère arrive de la
@@ -492,6 +501,7 @@ footer a:hover {
 
   .project-content {
     max-width: 100vw;
+    padding: 0 1.25rem;
   }
 
   .project-meta {
@@ -503,7 +513,8 @@ footer a:hover {
     margin-bottom: 3.5rem;
   }
 
-  .project-title {
+  .project-title,
+  .intro-link {
     letter-spacing: -0.045em;
     line-height: 0.72;
   }
