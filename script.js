@@ -13,7 +13,10 @@
 /* ==========================================================================
    1. Données des projets
    Chaque entrée alimente à la fois le point de pagination et la page
-   de détail associée. "images" liste les visuels détaillés du projet.
+   de détail associée. "images" liste les visuels détaillés du projet —
+   soit une simple chaîne (comme ci-dessous), soit, pour éviter un saut de
+   mise en page au chargement, { src: '...', width: 1200, height: 1600 }
+   (les vraies dimensions en pixels du fichier).
    ========================================================================== */
 const projects = [
   {
@@ -86,7 +89,7 @@ const projects = [
    qu'il ne puisse jamais y avoir de désaccord entre la carte et le détail.
    ========================================================================== */
 const introNav = document.getElementById('introNav');
-const projectsMain = document.getElementById('scrollContainer');
+const scrollContainer = document.getElementById('scrollContainer');
 
 // Dans le champ "year" ("workshop – 2024", "projet graphique – 2026"…),
 // seule l'année à 4 chiffres est affichée sur la carte ; la page de détail,
@@ -96,6 +99,14 @@ function extractCardYear(year) {
   return match ? match[0] : year;
 }
 
+// Une entrée d'"images" peut rester une simple chaîne (comme aujourd'hui) ou
+// devenir { src, width, height } pour réserver l'espace exact avant que
+// l'image ne charge (évite un saut de mise en page). Les deux formats sont
+// acceptés, donc ajouter les dimensions plus tard ne casse rien.
+function resolveImageEntry(entry) {
+  return typeof entry === 'string' ? { src: entry } : entry;
+}
+
 // Découpe le texte d'un lien en lettres animables individuellement (entrée
 // depuis la gauche, en grand, qui se resserrent à leur taille finale). Le mot
 // entier reste accessible via aria-label : chaque lettre, elle, est purement
@@ -103,16 +114,24 @@ function extractCardYear(year) {
 function animateLettersIn(link, text, startDelayMs) {
   link.setAttribute('aria-label', text);
   link.textContent = '';
-  Array.from(text).forEach((char, i) => {
+  let letterIndex = 0;
+  Array.from(text).forEach((char) => {
+    // Une espace doit rester un vrai nœud de texte, jamais enfermée dans son
+    // propre span display:inline-block : isolée comme ça, elle s'affichait
+    // de façon peu fiable (largeur nulle dans certains cas). Un nœud de
+    // texte entre deux spans, c'est la façon standard et toujours fiable
+    // dont le HTML gère les espaces entre mots.
+    if (char === ' ') {
+      link.appendChild(document.createTextNode(' '));
+      return;
+    }
     const letter = document.createElement('span');
     letter.className = 'letter';
-    // Un espace normal, une fois posé dans un span en display:inline-block,
-    // est rogné par le navigateur (largeur nulle) : on utilise une espace
-    // insécable, invisible à l'œil mais jamais collapsée.
-    letter.textContent = char === ' ' ? '\u00A0' : char;
+    letter.textContent = char;
     letter.setAttribute('aria-hidden', 'true');
-    letter.style.animationDelay = `${startDelayMs + i * 22}ms`;
+    letter.style.animationDelay = `${startDelayMs + letterIndex * 22}ms`;
     link.appendChild(letter);
+    letterIndex += 1;
   });
 }
 
@@ -165,13 +184,12 @@ projects.forEach((project, index) => {
   `;
   section.appendChild(content);
 
-  projectsMain.appendChild(section);
+  scrollContainer.appendChild(section);
 });
 
 /* ==========================================================================
    3. Pagination
    ========================================================================== */
-const scrollContainer = document.getElementById('scrollContainer');
 const paginationEl = document.getElementById('pagination');
 
 // Ne cible que les vraies sections projet : l'intro a sa propre classe
@@ -318,12 +336,17 @@ function openDetail(index) {
 
   detailImages.innerHTML = '';
 
-  project.images.forEach((src, i) => {
+  project.images.forEach((entry, i) => {
+    const { src, width, height } = resolveImageEntry(entry);
     const img = document.createElement('img');
     img.src = src;
     img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
     img.loading = 'lazy';
     img.decoding = 'async';
+    if (width && height) {
+      img.width = width;
+      img.height = height;
+    }
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
     img.addEventListener('click', () => openLightboxImage(project.images, i, project.title));
@@ -378,7 +401,7 @@ let lightboxIndex = 0;
 let lightboxProjectTitle = '';
 
 function renderLightboxImage() {
-  const src = lightboxImages[lightboxIndex];
+  const { src } = resolveImageEntry(lightboxImages[lightboxIndex]);
   lightboxContent.innerHTML = '';
   const img = document.createElement('img');
   img.src = src;

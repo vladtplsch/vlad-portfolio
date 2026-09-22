@@ -17,7 +17,7 @@
   --color-fg: #ffffff;
   --color-fg-soft: rgba(255, 255, 255, 0.85);
   --color-fg-muted: rgba(255, 255, 255, 0.5);
-  --color-fg-faint: rgba(255, 255, 255, 0.3);
+  --color-fg-faint: rgba(255, 255, 255, 0.4); /* 0.3 tombait sous 3:1 (WCAG 1.4.11) sur fond noir */
 
   --font-family: 'akzidenz-grotesk', 'akzidenz grotesk', helvetica, sans-serif;
 
@@ -111,6 +111,16 @@ nav a,
 footer span,
 footer a {
   pointer-events: all;
+}
+
+/* Le logo est maintenant un <h1> (sémantique, pour le SEO/a11y) plutôt qu'un
+   <p> — mais un h1 a par défaut une taille et une graisse propres au
+   navigateur qui l'emportent sur l'héritage du header. On les fige donc ici
+   explicitement pour un rendu visuel strictement identique à avant. */
+.logo {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .logo span {
