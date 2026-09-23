@@ -643,8 +643,7 @@ footer a:hover {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .touch-ripple {
-    display: none;
-  }
-}
+/* Pas de règle "display: none" ici : la règle globale plus haut
+   (`* { animation-duration: 0.01ms !important; }`) suffit déjà à rendre le
+   cercle tactile quasi instantané pour qui préfère moins de mouvement,
+   exactement comme le reste du site — sans jamais le faire disparaître. */
