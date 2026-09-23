@@ -200,7 +200,7 @@ footer a:hover {
   letter-spacing: -0.055em;
   line-height: 0.68;
   overflow-wrap: break-word;
-  hyphens: auto;
+  hyphens: none;
   text-wrap: balance;
   transition: opacity var(--ease-fast);
 }
@@ -312,7 +312,7 @@ footer a:hover {
   letter-spacing: -0.055em;
   line-height: 0.68;
   overflow-wrap: break-word;
-  hyphens: auto;
+  hyphens: none;
   text-wrap: balance;
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
 }
@@ -417,7 +417,7 @@ footer a:hover {
   letter-spacing: -0.045em;
   line-height: 0.88;
   overflow-wrap: break-word;
-  hyphens: auto;
+  hyphens: none;
   text-wrap: balance;
   margin-bottom: 2.25rem;
 }
@@ -428,7 +428,7 @@ footer a:hover {
   font-weight: 300;
   color: var(--color-fg-soft);
   max-width: 60ch;
-  hyphens: auto;
+  hyphens: none;
   text-wrap: pretty;
   margin-bottom: 3.5rem;
 }
