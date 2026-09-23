@@ -45,6 +45,24 @@
   }
 }
 
+/* Grands écrans (desktop large, iMac 27"…) : 4rem de marge devient très
+   étroit une fois rapporté à la largeur réelle de l'écran — on l'augmente
+   progressivement pour que le contenu ne colle plus aux bords. */
+@media (min-width: 1600px) {
+  :root {
+    --space-page-x: 6rem;
+    --space-page-y: 4.5rem;
+  }
+}
+
+/* Écrans très larges / 4K : encore un cran de respiration. */
+@media (min-width: 2200px) {
+  :root {
+    --space-page-x: 9rem;
+    --space-page-y: 5rem;
+  }
+}
+
 /* ---------- Base ---------- */
 html,
 body {
@@ -265,7 +283,7 @@ footer a:hover {
   pointer-events: none;
   width: 100%;
   max-width: 90vw;
-  padding: 0 2rem;
+  padding: 0 clamp(2rem, 6vw, 7rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -378,6 +396,12 @@ footer a:hover {
   padding: 6.5rem 2rem 6rem;
 }
 
+@media (min-width: 1600px) {
+  .detail-inner {
+    max-width: 1080px;
+  }
+}
+
 .detail-meta {
   display: flex;
   justify-content: space-between;
@@ -409,15 +433,13 @@ footer a:hover {
   margin-bottom: 3.5rem;
 }
 
+/* Une seule colonne, pleine largeur, sur tous les écrans : des images plus
+   grandes et plus lisibles, quitte à ce que la page de détail défile un peu
+   plus — cohérent avec le rendu qu'on avait déjà par défaut sur mobile. */
 .detail-images {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-/* Quand une seule image est fournie, elle occupe toute la largeur */
-.detail-images:has(img:only-child) {
   grid-template-columns: 1fr;
+  gap: 2rem;
 }
 
 .detail-images img {
@@ -430,7 +452,7 @@ footer a:hover {
 
 @media (max-width: 640px) {
   .detail-images {
-    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -590,6 +612,39 @@ footer a:hover {
 
 @media (hover: none), (pointer: coarse) {
   .cursor-dot {
+    display: none;
+  }
+
+  /* Même principe visuel que le curseur desktop (cercle blanc, inversion des
+     couleurs via mix-blend-mode), mais déclenché ponctuellement à chaque
+     appui plutôt que suivi en continu : sur tactile, il n'y a pas de
+     pointeur permanent à représenter. */
+  .touch-ripple {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+    animation: touch-ripple-out 550ms ease-out forwards;
+  }
+
+  @keyframes touch-ripple-out {
+    to {
+      transform: translate(-50%, -50%) scale(5.5);
+      opacity: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .touch-ripple {
     display: none;
   }
 }

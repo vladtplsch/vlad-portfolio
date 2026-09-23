@@ -44,18 +44,18 @@ const projects = [
     title: 'workshop',
     cover: { src: 'images/IMG_2607.webp', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
-    images: ['images/IMG_2607.webp'
-
-
-
-
-
+    images: [
+      'images/IMG_2607.webp',
+      'images/workshop.webp',
+      'images/workshop01.webp',
+      'images/workshop02.webp',
+   
     ],
   },
   {
     tag: 'affiche',
     year: 'design – 2025',
-    title: 'nifff',
+    title: 'affiche nifff',
     cover: { src: 'images/nifff.webp', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
     images: ['images/nifff.webp'],
@@ -563,4 +563,43 @@ if (canUseCustomCursor && cursorDot) {
       cursorDot.classList.remove('is-hovering');
     }
   });
+}
+
+/* ==========================================================================
+   7. Cercle d'inversion tactile
+   Équivalent du curseur personnalisé, mais pour les écrans tactiles : comme
+   il n'y a pas de pointeur à suivre en continu, chaque appui fait apparaître
+   un petit cercle (même style, même mix-blend-mode) qui grossit et s'efface
+   à l'endroit touché, avant de se retirer du DOM.
+   ========================================================================== */
+const canUseTouchRipple = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (canUseTouchRipple && !prefersReducedMotion) {
+  document.addEventListener(
+    'touchstart',
+    (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+
+      const ripple = document.createElement('div');
+      ripple.className = 'touch-ripple';
+      ripple.style.left = `${touch.clientX}px`;
+      ripple.style.top = `${touch.clientY}px`;
+      document.body.appendChild(ripple);
+
+      // Le retrait normal se fait à la fin de l'animation CSS ; le délai de
+      // secours garantit qu'un cercle ne reste jamais accroché au DOM si
+      // l'événement n'arrive pas (onglet en arrière-plan, par exemple).
+      let removed = false;
+      const remove = () => {
+        if (removed) return;
+        removed = true;
+        ripple.remove();
+      };
+      ripple.addEventListener('animationend', remove);
+      setTimeout(remove, 700);
+    },
+    { passive: true }
+  );
 }
