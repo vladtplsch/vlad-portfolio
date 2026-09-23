@@ -69,6 +69,7 @@ const projects = [
     
       'images/bico01.webp',
       'images/bico02.webp',
+      'images/bico001.jpg',
     ],
   },
   {
