@@ -1,7 +1,8 @@
 /* ==========================================================================
    Toplitsch Vladimir — Portfolio
    Structure : Reset > Variables > Base > Header/Footer > Scroll & sections
-               > Typographie projet > Pagination > Page de détail > Responsive
+               > Typographie projet > Pagination > Page de détail > Lightbox
+               > Responsive > Souris uniquement (survol + curseur)
    ========================================================================== */
 
 /* ---------- Reset ---------- */
@@ -17,7 +18,6 @@
   --color-fg: #ffffff;
   --color-fg-soft: rgba(255, 255, 255, 0.85);
   --color-fg-muted: rgba(255, 255, 255, 0.5);
-  --color-fg-faint: rgba(255, 255, 255, 0.4);
 
   --font-family: 'akzidenz-grotesk', 'akzidenz grotesk', helvetica, sans-serif;
 
@@ -76,6 +76,15 @@ a {
   color: var(--color-fg);
 }
 
+/* Supprime le délai de tap et le zoom au double-tap sur les cibles tactiles */
+a,
+button,
+.project-section,
+.detail-images img,
+.lightbox-content img {
+  touch-action: manipulation;
+}
+
 :focus-visible {
   outline: 1px solid var(--color-fg);
   outline-offset: 4px;
@@ -104,16 +113,15 @@ footer {
   font-size: 0.85rem;
   font-weight: 500;
   letter-spacing: 0.08em;
+  pointer-events: none;
 }
 
 header {
   top: 0;
-  pointer-events: none;
 }
 
 footer {
   bottom: 0;
-  pointer-events: none;
 }
 
 .logo,
@@ -129,18 +137,9 @@ footer a {
   line-height: inherit;
 }
 
-.logo span {
-  opacity: 0.4;
-}
-
 nav a,
 footer a {
   transition: opacity var(--ease-fast);
-}
-
-nav a:hover,
-footer a:hover {
-  opacity: 0.6;
 }
 
 /* ---------- Scroll & sections projet ---------- */
@@ -164,10 +163,6 @@ footer a:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.project-section {
-  cursor: pointer;
 }
 
 .intro-nav {
@@ -215,11 +210,6 @@ footer a:hover {
   }
 }
 
-.intro-link:hover,
-.intro-link:focus-visible {
-  opacity: 0.4;
-}
-
 /* Image et vidéo d'arrière-plan avec remplissage complet sans bandes blanches */
 .project-bg {
   position: absolute;
@@ -227,20 +217,24 @@ footer a:hover {
   left: 50%;
   width: 100%;
   height: 100%;
-  min-width: 100%;
-  min-height: 100%;
   object-fit: cover;
   transform: translate(-50%, -50%) scale(1.15); /* Zoom léger pour supprimer les bandes blanches encodées dans la vidéo */
   pointer-events: none;
   z-index: 0;
-  transition: transform var(--ease-slow), filter var(--ease-slow);
+  transition: transform var(--ease-slow);
 }
 
-.project-section:hover .project-bg,
-.project-section:focus-visible .project-bg {
-  transform: translate(-50%, -50%) scale(1.2);
-  filter: brightness(0.75);
-  will-change: transform, filter;
+/* Assombrissement au survol : voile noir 25 % animé en opacity
+   (équivaut à brightness(0.75), sans le coût du filtre) */
+.project-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ease-slow);
 }
 
 .project-section::after {
@@ -311,18 +305,19 @@ footer a:hover {
   z-index: 100;
 }
 
+/* Blanc à 40 % d'opacité = rgba(255,255,255,0.4) : animé en opacity (GPU) */
 .dot {
   width: 1px;
   height: 15px;
   padding: 0;
   border: none;
-  background-color: var(--color-fg-faint);
-  transition: background-color var(--ease-medium), transform var(--ease-medium);
-  cursor: pointer;
+  background-color: var(--color-fg);
+  opacity: 0.4;
+  transition: opacity var(--ease-medium), transform var(--ease-medium);
 }
 
 .dot.active {
-  background-color: var(--color-fg);
+  opacity: 1;
   transform: scaleX(3);
 }
 
@@ -363,13 +358,8 @@ footer a:hover {
   background: none;
   border: none;
   color: var(--color-fg);
-  cursor: pointer;
   font-family: inherit;
   transition: opacity var(--ease-fast);
-}
-
-.detail-close:hover {
-  opacity: 0.6;
 }
 
 .detail-inner {
@@ -425,7 +415,6 @@ footer a:hover {
   width: 100%;
   height: auto;
   display: block;
-  cursor: zoom-in;
   background: rgba(255, 255, 255, 0.03);
 }
 
@@ -478,13 +467,8 @@ footer a:hover {
   background: none;
   border: none;
   color: var(--color-fg);
-  cursor: pointer;
   font-family: inherit;
   transition: opacity var(--ease-fast);
-}
-
-.lightbox-close:hover {
-  opacity: 0.6;
 }
 
 .lightbox-content {
@@ -502,7 +486,6 @@ footer a:hover {
   height: auto;
   object-fit: contain;
   display: block;
-  cursor: pointer;
 }
 
 /* ---------- Responsive ---------- */
@@ -550,64 +533,66 @@ footer a:hover {
   }
 }
 
-/* ---------- Curseur personnalisé ---------- */
+/* ---------- Souris uniquement : survol + curseur personnalisé ----------
+   Rien de tout cela n'est appliqué sur mobile / tablette (tactile natif). */
 @media (hover: hover) and (pointer: fine) {
   * {
     cursor: none !important;
   }
 
+  nav a:hover,
+  footer a:hover,
+  .detail-close:hover,
+  .lightbox-close:hover {
+    opacity: 0.6;
+  }
+
+  .intro-link:hover,
+  .intro-link:focus-visible {
+    opacity: 0.4;
+  }
+
+  .project-section:hover .project-bg,
+  .project-section:focus-visible .project-bg {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  .project-section:hover::before,
+  .project-section:focus-visible::before {
+    opacity: 1;
+  }
+
+  /* Le point est déplacé via transform (JS) ; le grossissement se fait sur
+     le pseudo-élément (scale 80/14) pour ne jamais toucher width/height. */
   .cursor-dot {
     position: fixed;
     top: 0;
     left: 0;
     width: 14px;
     height: 14px;
-    border-radius: 50%;
-    background: #ffffff;
+    margin: -7px 0 0 -7px;
     mix-blend-mode: difference;
     pointer-events: none;
     z-index: 9999;
-    transform: translate(-50%, -50%);
     opacity: 0;
     will-change: transform;
-    transition: opacity var(--ease-fast), width var(--ease-fast), height var(--ease-fast);
+    transition: opacity var(--ease-fast);
+  }
+
+  .cursor-dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: transform var(--ease-fast);
   }
 
   .cursor-dot.is-visible {
     opacity: 1;
   }
 
-  .cursor-dot.is-hovering {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  .cursor-dot {
-    display: none;
-  }
-
-  .touch-ripple {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #ffffff;
-    mix-blend-mode: difference;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.9;
-    animation: touch-ripple-out 550ms ease-out forwards;
-  }
-
-  @keyframes touch-ripple-out {
-    to {
-      transform: translate(-50%, -50%) scale(5.5);
-      opacity: 0;
-    }
+  .cursor-dot.is-hovering::before {
+    transform: scale(5.714);
   }
 }

@@ -15,76 +15,119 @@ const projects = [
     text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
     images: [
       'video-agenda-web.mp4',
-      'images/Présentation agenda_Final copie_Page_02.jpg',
-      'images/Présentation agenda_Final copie_Page_03.jpg',
-      'images/Présentation agenda_Final copie_Page_04.jpg',
-      'images/Présentation agenda_Final copie_Page_05.jpg',
-      'images/Présentation agenda_Final copie_Page_06.jpg',
-      'images/Présentation agenda_Final copie_Page_07.jpg',
-      'images/Présentation agenda_Final copie_Page_08.jpg',
-      'images/Présentation agenda_Final copie_Page_09.jpg',
-      'images/Présentation agenda_Final copie_Page_10.jpg',
-      'images/Présentation agenda_Final copie_Page_11.jpg',
+      'images/Présentation agenda_Final copie_Page_02_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_03_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_04_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_05_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_06_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_07_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_08_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_09_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_10_resultat_resultat.webp',
+      'images/Présentation agenda_Final copie_Page_11_resultat_resultat.webp',
     ],
   },
   {
     tag: 'affiche',
     year: 'workshop – 2024',
     title: 'workshop',
-    cover: { src: 'images/IMG_2607.webp', alt: 'Affiche du workshop typographique' },
+    cover: { src: 'images/IMG_2607_resultat_resultat.webp', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: [
-      'images/IMG_2607.webp',
-      'images/workshop.webp',
-      'images/workshop01.webp',
-      'images/workshop02.webp',
+      'images/IMG_2607_resultat_resultat.webp',
+      'images/workshop_resultat_resultat.webp',
+      'images/workshop01_resultat_resultat.webp',
+      'images/workshop02_resultat_resultat.webp',
     ],
   },
   {
     tag: 'affiche',
     year: 'design – 2025',
     title: 'nifff',
-    cover: { src: 'images/nifff.webp', alt: 'Affiche du Nifff' },
+    cover: { src: 'images/nifff_resultat_resultat.webp', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
-    images: ['images/nifff.webp'],
+    images: ['images/nifff_resultat_resultat.webp'],
   },
   {
     tag: 'textile',
     year: '2026',
     title: 'collaboration bico',
-    cover: { src: 'images/bico01.webp', alt: 'Création de deux pulls pour la marque suisse Bico' },
+    cover: { src: 'images/bico01_resultat_resultat.webp', alt: 'Création de deux pulls pour la marque suisse Bico' },
     text: "Contacté par la marque suisse Bico pour concevoir sa nouvelle collection, j'ai conçu ces deux pulls autour de la broderie et de l'impression à chaud. Deux techniques exigeantes, qui font dialoguer précision textile et geste graphique plus brut.",
     images: [
-      'images/bico01.webp',
-      'images/bico02.webp',
-      'images/bico001.jpg',
+      'images/bico01_resultat_resultat.webp',
+      'images/bico02_resultat_resultat.webp',
+      'images/bico001_resultat_resultat.webp',
     ],
   },
   {
     tag: 'flyer',
     year: '2026',
     title: 'pavillon sicli',
-    cover: { src: 'images/thomas01.webp', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
+    cover: { src: 'images/thomas01_resultat_resultat.webp', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
     text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
-      'images/thomas00.webp',
-      'images/thomas02.webp',
-      'images/thomas03.webp',
-      'images/thomas04.webp',
+      'images/thomas00_resultat_resultat.webp',
+      'images/thomas02_resultat_resultat.webp',
+      'images/thomas03_resultat_resultat.webp',
+      'images/thomas04_resultat_resultat.webp',
     ],
   },
 ];
 
-const introNav = document.getElementById('introNav');
+/* ==========================================================================
+   Éléments du DOM
+   ========================================================================== */
 const scrollContainer = document.getElementById('scrollContainer');
+const introNav = document.getElementById('introNav');
+const introSection = document.getElementById('intro');
+const paginationEl = document.getElementById('pagination');
+
+const detail = document.getElementById('detail');
+const detailClose = document.getElementById('detailClose');
+const detailTag = document.getElementById('detailTag');
+const detailYear = document.getElementById('detailYear');
+const detailTitle = document.getElementById('detailTitle');
+const detailText = document.getElementById('detailText');
+const detailImages = document.getElementById('detailImages');
+
+const lightbox = document.getElementById('lightbox');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxContent = document.getElementById('lightboxContent');
+
+/* ==========================================================================
+   Utilitaires
+   ========================================================================== */
+const isVideo = (src) => /\.(mp4|webm)$/.test(src);
+
+function createVideo(src, className, controls = false) {
+  const video = document.createElement('video');
+  Object.assign(video, {
+    src,
+    className,
+    controls,
+    autoplay: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+  });
+  return video;
+}
+
+/* Clic + clavier (Entrée / Espace) sur un élément role="button" */
+function onActivate(element, handler) {
+  element.addEventListener('click', handler);
+  element.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handler();
+    }
+  });
+}
 
 function extractCardYear(year) {
   const match = year.match(/\d{4}/);
   return match ? match[0] : year;
-}
-
-function resolveImageEntry(entry) {
-  return typeof entry === 'string' ? { src: entry } : entry;
 }
 
 function animateLettersIn(link, text, startDelayMs) {
@@ -119,146 +162,19 @@ function preventOrphans(text) {
   return result;
 }
 
-projects.forEach((project, index) => {
-  const link = document.createElement('a');
-  link.className = 'intro-link';
-  link.href = `#project-${index}`;
-  animateLettersIn(link, project.title, index * 120);
-  introNav.appendChild(link);
-
-  const section = document.createElement('section');
-  section.className = 'project-section';
-  section.id = `project-${index}`;
-  section.dataset.project = String(index);
-  section.tabIndex = 0;
-  section.setAttribute('role', 'button');
-  section.setAttribute('aria-haspopup', 'dialog');
-  section.setAttribute('aria-label', `Voir le projet : ${project.title}`);
-
-  if (project.cover.type === 'video') {
-    const video = document.createElement('video');
-    video.src = project.cover.src;
-    video.className = 'project-bg';
-    video.autoplay = true;
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
-    section.appendChild(video);
-  } else {
-    const img = document.createElement('img');
-    img.src = project.cover.src;
-    img.alt = project.cover.alt;
-    img.className = 'project-bg';
-    img.loading = index === 0 ? 'eager' : 'lazy';
-    img.decoding = 'async';
-    section.appendChild(img);
-  }
-
-  const content = document.createElement('div');
-  content.className = 'project-content';
-  content.innerHTML = `
-    <span class="project-meta project-tag">${project.tag}</span>
-    <h2 class="project-title">${project.title}</h2>
-    <span class="project-meta project-year">${extractCardYear(project.year)}</span>
-  `;
-  section.appendChild(content);
-
-  scrollContainer.appendChild(section);
-});
-
-/* ==========================================================================
-   Pagination
-   ========================================================================== */
-const paginationEl = document.getElementById('pagination');
-const sections = Array.from(document.querySelectorAll('.project-section'));
-
-const dots = sections.map((section, index) => {
-  const dot = document.createElement('button');
-  dot.className = 'dot';
-  dot.type = 'button';
-  const project = projects[Number(section.dataset.project)];
-  dot.setAttribute('aria-label', `Aller au projet : ${project.title}`);
-  if (index === 0) {
-    dot.classList.add('active');
-    dot.setAttribute('aria-current', 'true');
-  }
-  dot.addEventListener('click', () => {
-    section.scrollIntoView({ behavior: 'smooth' });
-  });
-  paginationEl.appendChild(dot);
-  return dot;
-});
-
-function setActiveDot(index) {
-  dots.forEach((dot, i) => {
-    const isActive = i === index;
-    dot.classList.toggle('active', isActive);
-    if (isActive) {
-      dot.setAttribute('aria-current', 'true');
-    } else {
-      dot.removeAttribute('aria-current');
-    }
-  });
-}
-
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-        setActiveDot(sections.indexOf(entry.target));
-      }
-    });
-  },
-  { root: scrollContainer, threshold: 0.5 }
-);
-sections.forEach((section) => sectionObserver.observe(section));
-
-const introSection = document.getElementById('intro');
-if (introSection) {
-  const introObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-          setActiveDot(-1);
-        }
-      });
-    },
-    { root: scrollContainer, threshold: 0.5 }
-  );
-  introObserver.observe(introSection);
-}
-
-/* ==========================================================================
-   Page de détail
-   ========================================================================== */
-const detail = document.getElementById('detail');
-const detailClose = document.getElementById('detailClose');
-const detailTag = document.getElementById('detailTag');
-const detailYear = document.getElementById('detailYear');
-const detailTitle = document.getElementById('detailTitle');
-const detailText = document.getElementById('detailText');
-const detailImages = document.getElementById('detailImages');
-
-let lastFocusedElement = null;
-let detailOpen = false;
-let lightboxOpen = false;
-
+/* Masque un élément une fois sa transition de sortie terminée.
+   Ne fait rien s'il a été rouvert entre-temps. */
 function hideAfterTransition(element, onHidden) {
-  let done = false;
-
   const finish = () => {
-    if (done) return;
-    done = true;
     element.removeEventListener('transitionend', onTransitionEnd);
     clearTimeout(fallback);
+    if (element.classList.contains('active')) return;
     element.hidden = true;
     if (onHidden) onHidden();
   };
-
-  function onTransitionEnd(event) {
+  const onTransitionEnd = (event) => {
     if (event.target === element) finish();
-  }
-
+  };
   element.addEventListener('transitionend', onTransitionEnd);
   const fallback = setTimeout(finish, 600);
 }
@@ -281,6 +197,104 @@ function trapFocus(container, event) {
   }
 }
 
+/* ==========================================================================
+   Construction : sommaire, sections projet, pagination
+   ========================================================================== */
+const sections = [];
+const dots = [];
+
+projects.forEach((project, index) => {
+  const link = document.createElement('a');
+  link.className = 'intro-link';
+  link.href = `#project-${index}`;
+  animateLettersIn(link, project.title, index * 120);
+  introNav.appendChild(link);
+
+  const section = document.createElement('section');
+  section.className = 'project-section';
+  section.id = `project-${index}`;
+  section.tabIndex = 0;
+  section.setAttribute('role', 'button');
+  section.setAttribute('aria-haspopup', 'dialog');
+  section.setAttribute('aria-label', `Voir le projet : ${project.title}`);
+
+  if (project.cover.type === 'video') {
+    section.appendChild(createVideo(project.cover.src, 'project-bg'));
+  } else {
+    const img = document.createElement('img');
+    img.src = project.cover.src;
+    img.alt = project.cover.alt;
+    img.className = 'project-bg';
+    img.loading = index === 0 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    section.appendChild(img);
+  }
+
+  const content = document.createElement('div');
+  content.className = 'project-content';
+  content.innerHTML = `
+    <span class="project-meta project-tag">${project.tag}</span>
+    <h2 class="project-title">${project.title}</h2>
+    <span class="project-meta project-year">${extractCardYear(project.year)}</span>
+  `;
+  section.appendChild(content);
+
+  onActivate(section, () => openDetail(index));
+  scrollContainer.appendChild(section);
+  sections.push(section);
+
+  const dot = document.createElement('button');
+  dot.className = 'dot';
+  dot.type = 'button';
+  dot.setAttribute('aria-label', `Aller au projet : ${project.title}`);
+  dot.addEventListener('click', () => section.scrollIntoView({ behavior: 'smooth' }));
+  paginationEl.appendChild(dot);
+  dots.push(dot);
+});
+
+/* ==========================================================================
+   Section visible : pagination + lecture des vidéos (un seul observer)
+   ========================================================================== */
+let activeDot = -1;
+
+function setActiveDot(index) {
+  if (index === activeDot) return;
+  const previous = dots[activeDot];
+  if (previous) {
+    previous.classList.remove('active');
+    previous.removeAttribute('aria-current');
+  }
+  activeDot = index;
+  const current = dots[index];
+  if (current) {
+    current.classList.add('active');
+    current.setAttribute('aria-current', 'true');
+  }
+}
+
+const sectionObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(({ target, intersectionRatio }) => {
+      const visible = intersectionRatio >= 0.5;
+      const video = target.querySelector('video');
+      if (video) {
+        if (visible) video.play().catch(() => {});
+        else video.pause();
+      }
+      if (visible) setActiveDot(sections.indexOf(target)); // l'intro donne -1
+    });
+  },
+  { root: scrollContainer, threshold: 0.5 }
+);
+sectionObserver.observe(introSection);
+sections.forEach((section) => sectionObserver.observe(section));
+
+/* ==========================================================================
+   Page de détail
+   ========================================================================== */
+let lastFocusedElement = null;
+let detailOpen = false;
+
 function openDetail(index) {
   const project = projects[index];
 
@@ -289,51 +303,28 @@ function openDetail(index) {
   detailTitle.textContent = project.title;
   detailText.textContent = preventOrphans(project.text);
 
-  detailImages.innerHTML = '';
-
-  project.images.forEach((entry, i) => {
-    const { src, width, height } = resolveImageEntry(entry);
-    
-    if (src.endsWith('.mp4') || src.endsWith('.webm')) {
-      const video = document.createElement('video');
-      video.src = src;
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.playsInline = true;
-      video.controls = true;
-      video.className = 'detail-video';
-      detailImages.appendChild(video);
-    } else {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      if (width && height) {
-        img.width = width;
-        img.height = height;
-      }
-      img.tabIndex = 0;
-      img.setAttribute('role', 'button');
-      img.addEventListener('click', () => openLightboxImage(project.images, i, project.title));
-      img.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openLightboxImage(project.images, i, project.title);
-        }
-      });
-      detailImages.appendChild(img);
+  const fragment = document.createDocumentFragment();
+  project.images.forEach((src, i) => {
+    if (isVideo(src)) {
+      fragment.appendChild(createVideo(src, 'detail-video', true));
+      return;
     }
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+    onActivate(img, () => openLightboxImage(project.images, i, project.title));
+    fragment.appendChild(img);
   });
+  detailImages.replaceChildren(fragment);
 
   lastFocusedElement = document.activeElement;
-
   detailOpen = true;
   detail.hidden = false;
-  void detail.offsetWidth;
   detail.classList.add('active');
-
   detail.scrollTop = 0;
   detailClose.focus();
 }
@@ -342,45 +333,37 @@ function closeDetail() {
   if (!detailOpen) return;
   detailOpen = false;
   detail.classList.remove('active');
-  hideAfterTransition(detail);
+  // Libère les images décodées et arrête les vidéos une fois la page masquée
+  hideAfterTransition(detail, () => detailImages.replaceChildren());
 
-  if (lastFocusedElement) {
-    lastFocusedElement.focus();
-  }
+  if (lastFocusedElement) lastFocusedElement.focus();
 }
+
+detailClose.addEventListener('click', closeDetail);
 
 /* ==========================================================================
    Lightbox
    ========================================================================== */
-const lightbox = document.getElementById('lightbox');
-const lightboxClose = document.getElementById('lightboxClose');
-const lightboxContent = document.getElementById('lightboxContent');
-
 let lastFocusedBeforeLightbox = null;
+let lightboxOpen = false;
 let lightboxImages = [];
 let lightboxIndex = 0;
 let lightboxProjectTitle = '';
 
 function renderLightboxImage() {
-  const { src } = resolveImageEntry(lightboxImages[lightboxIndex]);
-  lightboxContent.innerHTML = '';
-  if (src.endsWith('.mp4') || src.endsWith('.webm')) {
-    const video = document.createElement('video');
-    video.src = src;
-    video.autoplay = true;
-    video.loop = true;
-    video.muted = true;
-    video.controls = true;
-    video.style.maxWidth = '92vw';
-    video.style.maxHeight = '92vh';
-    lightboxContent.appendChild(video);
+  const src = lightboxImages[lightboxIndex];
+  let media;
+  if (isVideo(src)) {
+    media = createVideo(src, '', true);
+    media.style.maxWidth = '92vw';
+    media.style.maxHeight = '92vh';
   } else {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Visuel détaillé ${lightboxIndex + 1} — ${lightboxProjectTitle}`;
-    img.addEventListener('click', () => showLightboxImage(1));
-    lightboxContent.appendChild(img);
+    media = document.createElement('img');
+    media.src = src;
+    media.alt = `Visuel détaillé ${lightboxIndex + 1} — ${lightboxProjectTitle}`;
+    media.addEventListener('click', () => showLightboxImage(1));
   }
+  lightboxContent.replaceChildren(media);
 }
 
 function showLightboxImage(delta) {
@@ -397,7 +380,6 @@ function openLightboxImage(images, index, projectTitle) {
   lightboxOpen = true;
   lastFocusedBeforeLightbox = document.activeElement;
   lightbox.hidden = false;
-  void lightbox.offsetWidth;
   lightbox.classList.add('active');
   lightboxClose.focus();
 }
@@ -408,136 +390,73 @@ function closeLightbox() {
   lightbox.classList.remove('active');
 
   hideAfterTransition(lightbox, () => {
-    lightboxContent.innerHTML = '';
+    lightboxContent.replaceChildren();
     lightboxImages = [];
   });
 
-  if (lastFocusedBeforeLightbox) {
-    lastFocusedBeforeLightbox.focus();
-  }
+  if (lastFocusedBeforeLightbox) lastFocusedBeforeLightbox.focus();
 }
 
 lightboxClose.addEventListener('click', closeLightbox);
 
 lightbox.addEventListener('click', (event) => {
-  if (event.target === lightbox) {
-    closeLightbox();
-  }
+  if (event.target === lightbox) closeLightbox();
 });
 
-sections.forEach((section) => {
-  const index = Number(section.dataset.project);
-
-  section.addEventListener('click', () => openDetail(index));
-
-  section.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      openDetail(index);
-    }
-  });
-});
-
-detailClose.addEventListener('click', closeDetail);
-
+/* ==========================================================================
+   Clavier
+   ========================================================================== */
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
-    if (lightboxOpen) {
-      closeLightbox();
-    } else if (detailOpen) {
-      closeDetail();
-    }
+    if (lightboxOpen) closeLightbox();
+    else if (detailOpen) closeDetail();
   } else if (event.key === 'Tab') {
-    if (lightboxOpen) {
-      trapFocus(lightbox, event);
-    } else if (detailOpen) {
-      trapFocus(detail, event);
-    }
+    if (lightboxOpen) trapFocus(lightbox, event);
+    else if (detailOpen) trapFocus(detail, event);
   } else if (lightboxOpen && lightboxImages.length > 1) {
-    if (event.key === 'ArrowRight') {
-      showLightboxImage(1);
-    } else if (event.key === 'ArrowLeft') {
-      showLightboxImage(-1);
-    }
+    if (event.key === 'ArrowRight') showLightboxImage(1);
+    else if (event.key === 'ArrowLeft') showLightboxImage(-1);
   }
 });
 
 /* ==========================================================================
-   Curseur personnalisé
+   Curseur personnalisé — souris uniquement (créé seulement si pointeur précis)
+   Aucun effet, listener ni élément DOM sur mobile / tactile.
    ========================================================================== */
-const canUseCustomCursor = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-const cursorDot = document.getElementById('cursorDot');
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const cursorDot = document.createElement('div');
+  cursorDot.className = 'cursor-dot';
+  cursorDot.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(cursorDot);
 
-if (canUseCustomCursor && cursorDot) {
-  let pendingX = 0;
-  let pendingY = 0;
-  let frameRequested = false;
+  let x = 0;
+  let y = 0;
+  let frame = 0;
 
-  function paintCursor() {
-    cursorDot.style.transform = `translate3d(${pendingX}px, ${pendingY}px, 0) translate(-50%, -50%)`;
-    frameRequested = false;
-  }
+  const paint = () => {
+    cursorDot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    cursorDot.classList.add('is-visible');
+    frame = 0;
+  };
+  const hide = () => cursorDot.classList.remove('is-visible');
 
   document.addEventListener(
     'mousemove',
     (event) => {
-      pendingX = event.clientX;
-      pendingY = event.clientY;
-      cursorDot.classList.add('is-visible');
-      if (!frameRequested) {
-        frameRequested = true;
-        requestAnimationFrame(paintCursor);
-      }
+      x = event.clientX;
+      y = event.clientY;
+      if (!frame) frame = requestAnimationFrame(paint);
     },
     { passive: true }
   );
 
-  document.documentElement.addEventListener('mouseleave', () => {
-    cursorDot.classList.remove('is-visible');
-  });
-  window.addEventListener('blur', () => {
-    cursorDot.classList.remove('is-visible');
-  });
+  document.documentElement.addEventListener('mouseleave', hide);
+  window.addEventListener('blur', hide);
 
-  document.addEventListener('mouseover', (event) => {
-    if (event.target.closest('a, button, [role="button"]')) {
-      cursorDot.classList.add('is-hovering');
-    }
-  });
-
-  document.addEventListener('mouseout', (event) => {
-    if (event.target.closest('a, button, [role="button"]')) {
-      cursorDot.classList.remove('is-hovering');
-    }
-  });
-}
-
-/* ==========================================================================
-   Cercle d'inversion tactile
-   ========================================================================== */
-const canUseTouchRipple = window.matchMedia('(hover: none), (pointer: coarse)').matches;
-
-if (canUseTouchRipple) {
   document.addEventListener(
-    'touchstart',
+    'mouseover',
     (event) => {
-      const touch = event.touches[0];
-      if (!touch) return;
-
-      const ripple = document.createElement('div');
-      ripple.className = 'touch-ripple';
-      ripple.style.left = `${touch.clientX}px`;
-      ripple.style.top = `${touch.clientY}px`;
-      document.body.appendChild(ripple);
-
-      let removed = false;
-      const remove = () => {
-        if (removed) return;
-        removed = true;
-        ripple.remove();
-      };
-      ripple.addEventListener('animationend', remove);
-      setTimeout(remove, 700);
+      cursorDot.classList.toggle('is-hovering', !!event.target.closest('a, button, [role="button"]'));
     },
     { passive: true }
   );
