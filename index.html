@@ -7,8 +7,6 @@
   <meta name="description" content="Portfolio de graphisme de Vladimir Toplitsch — édition, affiche et identité visuelle.">
   <meta name="theme-color" content="#000000">
 
-  <!-- ⚠️ À remplacer par le vrai nom de domaine une fois le site hébergé
-       (canonical, og:url, og:image et le JSON-LD plus bas en dépendent tous) -->
   <link rel="canonical" href="https://www.toplitsch-vladimir.ch/">
 
   <meta property="og:type" content="website">
@@ -24,8 +22,6 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Données structurées : aide les moteurs de recherche à identifier la
-       personne derrière le site (résultats enrichis potentiels). -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,7 +43,6 @@
     </nav>
   </header>
 
-  <!-- Pagination : un point par projet, généré et mis à jour en JS -->
   <nav class="pagination" id="pagination" aria-label="Navigation entre les projets"></nav>
 
   <main class="scroll-container" id="scrollContainer">
@@ -55,16 +50,10 @@
     <section class="intro" id="intro">
       <div class="project-content">
         <span class="project-meta project-tag">portfolio</span>
-        <!-- Sommaire des projets : généré par script.js depuis le tableau
-             "projects", pour rester toujours en phase avec les titres réels. -->
         <nav class="intro-nav" id="introNav" aria-label="Sommaire des projets"></nav>
         <span class="project-meta project-year">2026</span>
       </div>
     </section>
-
-    <!-- Les sections projet (image de couverture, tag, titre, année) sont
-         générées par script.js à partir du tableau "projects" : une seule
-         source de vérité, partagée avec la page de détail et la pagination. -->
 
   </main>
 
@@ -73,7 +62,6 @@
     <a href="mailto:vltoplitsch@gmail.com">vltoplitsch@gmail.com</a>
   </footer>
 
-  <!-- Page de détail : un seul gabarit, rempli dynamiquement selon le projet cliqué -->
   <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
     <button class="detail-close" id="detailClose" type="button">fermer <span aria-hidden="true">×</span></button>
     <div class="detail-inner">
@@ -87,13 +75,11 @@
     </div>
   </div>
 
-  <!-- Lightbox : agrandit en plein écran l'image cliquée dans la page détail -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu en plein écran" hidden>
     <button class="lightbox-close" id="lightboxClose" type="button">fermer <span aria-hidden="true">×</span></button>
     <div class="lightbox-content" id="lightboxContent"></div>
   </div>
 
-  <!-- Curseur personnalisé : petit cercle en mix-blend-mode qui suit la souris (voir script.js) -->
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
   <script src="script.js" defer></script>

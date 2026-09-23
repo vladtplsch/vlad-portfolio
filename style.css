@@ -17,7 +17,7 @@
   --color-fg: #ffffff;
   --color-fg-soft: rgba(255, 255, 255, 0.85);
   --color-fg-muted: rgba(255, 255, 255, 0.5);
-  --color-fg-faint: rgba(255, 255, 255, 0.4); /* 0.3 tombait sous 3:1 (WCAG 1.4.11) sur fond noir */
+  --color-fg-faint: rgba(255, 255, 255, 0.4);
 
   --font-family: 'akzidenz-grotesk', 'akzidenz grotesk', helvetica, sans-serif;
 
@@ -36,18 +36,12 @@
   }
 }
 
-/* Téléphones étroits (iPhone SE, mini…) : un peu moins de marge pour le
-   header et le footer, qui sinon prennent proportionnellement plus de
-   place sur un petit écran. */
 @media (max-width: 380px) {
   :root {
     --space-page-x: 1.5rem;
   }
 }
 
-/* Grands écrans (desktop large, iMac 27"…) : 4rem de marge devient très
-   étroit une fois rapporté à la largeur réelle de l'écran — on l'augmente
-   progressivement pour que le contenu ne colle plus aux bords. */
 @media (min-width: 1600px) {
   :root {
     --space-page-x: 6rem;
@@ -55,7 +49,6 @@
   }
 }
 
-/* Écrans très larges / 4K : encore un cran de respiration. */
 @media (min-width: 2200px) {
   :root {
     --space-page-x: 9rem;
@@ -75,7 +68,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   line-height: 1;
-  text-transform: lowercase; /* aucune majuscule visible, où que ce soit sur le site */
+  text-transform: lowercase;
 }
 
 a {
@@ -83,7 +76,6 @@ a {
   color: var(--color-fg);
 }
 
-/* Focus clavier visible partout (accessibilité) */
 :focus-visible {
   outline: 1px solid var(--color-fg);
   outline-offset: 4px;
@@ -131,10 +123,6 @@ footer a {
   pointer-events: all;
 }
 
-/* Le logo est maintenant un <h1> (sémantique, pour le SEO/a11y) plutôt qu'un
-   <p> — mais un h1 a par défaut une taille et une graisse propres au
-   navigateur qui l'emportent sur l'héritage du header. On les fige donc ici
-   explicitement pour un rendu visuel strictement identique à avant. */
 .logo {
   font-size: inherit;
   font-weight: inherit;
@@ -158,15 +146,13 @@ footer a:hover {
 /* ---------- Scroll & sections projet ---------- */
 .scroll-container {
   height: 100vh;
-  height: 100dvh; /* évite les sauts liés à la barre d'adresse mobile */
+  height: 100dvh;
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
-/* .intro reprend exactement la grille des sections projet : bloc centré, même
-   respiration, mêmes proportions. Seule .project-section est cliquable. */
 .project-section,
 .intro {
   position: relative;
@@ -184,7 +170,6 @@ footer a:hover {
   cursor: pointer;
 }
 
-/* .project-content coupe les clics : on les rétablit sur le sommaire. */
 .intro-nav {
   pointer-events: all;
   display: flex;
@@ -205,8 +190,6 @@ footer a:hover {
   transition: opacity var(--ease-fast);
 }
 
-/* Entrée du sommaire, lettre par lettre : chaque caractère arrive de la
-   gauche en grand, puis se resserre fluidement à sa taille finale. */
 @keyframes intro-letter-in {
   from {
     opacity: 0;
@@ -224,8 +207,6 @@ footer a:hover {
   animation: intro-letter-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Un envol de 20+ lettres peut être franchement désagréable pour qui préfère
-   moins de mouvement : le texte apparaît alors directement, en place. */
 @media (prefers-reduced-motion: reduce) {
   .intro-link .letter {
     animation: none;
@@ -239,13 +220,17 @@ footer a:hover {
   opacity: 0.4;
 }
 
+/* Image et vidéo d'arrière-plan avec remplissage complet sans bandes blanches */
 .project-bg {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
   height: 100%;
+  min-width: 100%;
+  min-height: 100%;
   object-fit: cover;
+  transform: translate(-50%, -50%) scale(1.15); /* Zoom léger pour supprimer les bandes blanches encodées dans la vidéo */
   pointer-events: none;
   z-index: 0;
   transition: transform var(--ease-slow), filter var(--ease-slow);
@@ -253,14 +238,11 @@ footer a:hover {
 
 .project-section:hover .project-bg,
 .project-section:focus-visible .project-bg {
-  transform: scale(1.03);
+  transform: translate(-50%, -50%) scale(1.2);
   filter: brightness(0.75);
   will-change: transform, filter;
 }
 
-/* Voile sombre entre la photo et le texte : contraste garanti quelle que
-   soit la luminosité de l'image derrière, contrairement à un blend mode qui
-   dépend du contenu et peut devenir illisible sur une photo trop claire. */
 .project-section::after {
   content: '';
   position: absolute;
@@ -351,15 +333,15 @@ footer a:hover {
   z-index: 200;
   background: var(--color-bg);
   overflow-y: auto;
-  overscroll-behavior: contain; /* empêche le scroll de fuiter vers la page derrière sur mobile */
+  overscroll-behavior: contain;
   opacity: 0;
-  pointer-events: none; /* tant qu'il n'est pas actif, il ne capte aucun clic */
+  pointer-events: none;
   transform: translateY(2rem);
   transition: opacity var(--ease-medium), transform var(--ease-medium);
 }
 
 .detail[hidden] {
-  display: block; /* on gère nous-mêmes la visibilité pour l'animation */
+  display: block;
   visibility: hidden;
   pointer-events: none;
 }
@@ -433,9 +415,6 @@ footer a:hover {
   margin-bottom: 3.5rem;
 }
 
-/* Une seule colonne, pleine largeur, sur tous les écrans : des images plus
-   grandes et plus lisibles, quitte à ce que la page de détail défile un peu
-   plus — cohérent avec le rendu qu'on avait déjà par défaut sur mobile. */
 .detail-images {
   display: grid;
   grid-template-columns: 1fr;
@@ -447,7 +426,14 @@ footer a:hover {
   height: auto;
   display: block;
   cursor: zoom-in;
-  background: rgba(255, 255, 255, 0.03); /* place-holder discret pendant le chargement */
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.detail-video {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 @media (max-width: 640px) {
@@ -456,7 +442,7 @@ footer a:hover {
   }
 }
 
-/* ---------- Lightbox (aperçu plein écran) ---------- */
+/* ---------- Lightbox ---------- */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -466,12 +452,12 @@ footer a:hover {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  pointer-events: none; /* tant qu'il n'est pas actif, il ne capte aucun clic */
+  pointer-events: none;
   transition: opacity var(--ease-medium);
 }
 
 .lightbox[hidden] {
-  display: flex; /* on gère nous-mêmes la visibilité pour l'animation */
+  display: flex;
   visibility: hidden;
   pointer-events: none;
 }
@@ -565,18 +551,7 @@ footer a:hover {
 }
 
 /* ---------- Curseur personnalisé ---------- */
-/* Un petit cercle qui remplace le curseur et inverse les couleurs de ce
-   qu'il survole (mix-blend-mode: difference) ; il grossit légèrement sur
-   les éléments cliquables pour signaler qu'on peut interagir. Uniquement
-   sur les appareils à pointeur précis (souris/trackpad) : sur tactile, il
-   n'a pas de sens et resterait planté au dernier point touché. */
 @media (hover: hover) and (pointer: fine) {
-  /* !important est nécessaire ici : plusieurs éléments déclarent leur propre
-     "cursor" (le sélecteur combiné ".dot", ".detail-close", ".lightbox-close",
-     ".detail-images img", ".lightbox-content img" est plus spécifique qu'un
-     simple "button" ou "[role='button']"). Sans ce niveau de priorité, le
-     curseur natif refaisait surface par-dessus le cercle sur ces éléments
-     précis — deux curseurs superposés au lieu d'un seul. */
   * {
     cursor: none !important;
   }
@@ -592,8 +567,6 @@ footer a:hover {
     mix-blend-mode: difference;
     pointer-events: none;
     z-index: 9999;
-    /* Position réelle pilotée par script.js via translate3d ; cette valeur
-       ne sert qu'avant le premier mouvement de souris. */
     transform: translate(-50%, -50%);
     opacity: 0;
     will-change: transform;
@@ -615,10 +588,6 @@ footer a:hover {
     display: none;
   }
 
-  /* Même principe visuel que le curseur desktop (cercle blanc, inversion des
-     couleurs via mix-blend-mode), mais déclenché ponctuellement à chaque
-     appui plutôt que suivi en continu : sur tactile, il n'y a pas de
-     pointeur permanent à représenter. */
   .touch-ripple {
     position: fixed;
     top: 0;
@@ -642,8 +611,3 @@ footer a:hover {
     }
   }
 }
-
-/* Pas de règle "display: none" ici : la règle globale plus haut
-   (`* { animation-duration: 0.01ms !important; }`) suffit déjà à rendre le
-   cercle tactile quasi instantané pour qui préfère moins de mouvement,
-   exactement comme le reste du site — sans jamais le faire disparaître. */
