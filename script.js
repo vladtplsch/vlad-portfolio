@@ -44,7 +44,13 @@ const projects = [
     title: 'workshop',
     cover: { src: 'images/IMG_2607.webp', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
-    images: ['images/IMG_2607.webp'],
+    images: ['images/IMG_2607.webp'
+
+
+
+
+
+    ],
   },
   {
     tag: 'affiche',
@@ -64,6 +70,7 @@ const projects = [
     
       'images/bico01.webp',
       'images/bico02.webp',
+      'images/bico001.jpg',
     ],
   },
   {
