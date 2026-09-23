@@ -54,7 +54,7 @@ const projects = [
   {
     tag: 'affiche',
     year: 'design – 2025',
-    title: 'affiche nifff',
+    title: 'nifff',
     cover: { src: 'images/nifff.webp', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
     images: ['images/nifff.webp'],
