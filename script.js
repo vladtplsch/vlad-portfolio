@@ -82,6 +82,8 @@ const scrollContainer = document.getElementById('scrollContainer');
 const introNav = document.getElementById('introNav');
 const introSection = document.getElementById('intro');
 const paginationEl = document.getElementById('pagination');
+const headerEl = document.querySelector('header');
+const footerEl = document.querySelector('footer');
 
 const detail = document.getElementById('detail');
 const detailClose = document.getElementById('detailClose');
@@ -110,6 +112,7 @@ function createVideo(src, className, controls = false) {
     loop: true,
     muted: true,
     playsInline: true,
+    preload: 'metadata',
   });
   return video;
 }
@@ -219,7 +222,10 @@ projects.forEach((project, index) => {
   section.setAttribute('aria-label', `Voir le projet : ${project.title}`);
 
   if (project.cover.type === 'video') {
-    section.appendChild(createVideo(project.cover.src, 'project-bg'));
+    const bgVideo = createVideo(project.cover.src, 'project-bg');
+    bgVideo.setAttribute('aria-hidden', 'true');
+    bgVideo.tabIndex = -1;
+    section.appendChild(bgVideo);
   } else {
     const img = document.createElement('img');
     img.src = project.cover.src;
@@ -232,11 +238,20 @@ projects.forEach((project, index) => {
 
   const content = document.createElement('div');
   content.className = 'project-content';
-  content.innerHTML = `
-    <span class="project-meta project-tag">${project.tag}</span>
-    <h2 class="project-title">${project.title}</h2>
-    <span class="project-meta project-year">${extractCardYear(project.year)}</span>
-  `;
+
+  const tagEl = document.createElement('span');
+  tagEl.className = 'project-meta project-tag';
+  tagEl.textContent = project.tag;
+
+  const titleEl = document.createElement('h2');
+  titleEl.className = 'project-title';
+  titleEl.textContent = project.title;
+
+  const yearEl = document.createElement('span');
+  yearEl.className = 'project-meta project-year';
+  yearEl.textContent = extractCardYear(project.year);
+
+  content.append(tagEl, titleEl, yearEl);
   section.appendChild(content);
 
   onActivate(section, () => openDetail(index));
@@ -323,6 +338,7 @@ function openDetail(index) {
 
   lastFocusedElement = document.activeElement;
   detailOpen = true;
+  updateBackgroundInert();
   detail.hidden = false;
   detail.classList.add('active');
   detail.scrollTop = 0;
@@ -332,6 +348,7 @@ function openDetail(index) {
 function closeDetail() {
   if (!detailOpen) return;
   detailOpen = false;
+  updateBackgroundInert();
   detail.classList.remove('active');
   // Libère les images décodées et arrête les vidéos une fois la page masquée
   hideAfterTransition(detail, () => detailImages.replaceChildren());
@@ -378,6 +395,7 @@ function openLightboxImage(images, index, projectTitle) {
   renderLightboxImage();
 
   lightboxOpen = true;
+  updateBackgroundInert();
   lastFocusedBeforeLightbox = document.activeElement;
   lightbox.hidden = false;
   lightbox.classList.add('active');
@@ -387,6 +405,7 @@ function openLightboxImage(images, index, projectTitle) {
 function closeLightbox() {
   if (!lightboxOpen) return;
   lightboxOpen = false;
+  updateBackgroundInert();
   lightbox.classList.remove('active');
 
   hideAfterTransition(lightbox, () => {
@@ -398,6 +417,21 @@ function closeLightbox() {
 }
 
 lightboxClose.addEventListener('click', closeLightbox);
+
+/* ==========================================================================
+   Neutralisation du contenu masqué derrière une modale
+   `inert` ne change aucun style : il retire juste l'élément de l'arbre
+   d'accessibilité et du focus clavier tant que la modale est ouverte.
+   ========================================================================== */
+function updateBackgroundInert() {
+  const modalOpen = detailOpen || lightboxOpen;
+  [headerEl, footerEl, paginationEl, scrollContainer].forEach((el) => {
+    if (el) el.inert = modalOpen;
+  });
+  // Quand la lightbox s'ouvre par-dessus la page détail, celle-ci doit
+  // elle aussi être neutralisée le temps que la lightbox est active.
+  detail.inert = lightboxOpen;
+}
 
 lightbox.addEventListener('click', (event) => {
   if (event.target === lightbox) closeLightbox();
