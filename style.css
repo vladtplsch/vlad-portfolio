@@ -247,7 +247,7 @@ footer a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.10);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--ease-slow);
@@ -261,7 +261,7 @@ footer a {
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.35) 0%,
-    rgba(0, 0, 0, 0.55) 50%,
+    rgba(0, 0, 0, 0.55) 40%,
     rgba(0, 0, 0, 0.4) 100%
   );
   pointer-events: none;
