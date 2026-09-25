@@ -38,7 +38,9 @@
 <body>
 
   <header>
-    <h1 class="logo">toplitsch vladimir</h1>
+    <h1 class="logo">
+      <button class="logo-trigger" id="aboutTrigger" type="button" aria-haspopup="dialog">toplitsch vladimir</button>
+    </h1>
     <nav>
       <a href="https://www.instagram.com/vladtplsch" target="_blank" rel="noopener noreferrer">instagram</a>
     </nav>
@@ -79,6 +81,18 @@
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Aperçu en plein écran" hidden>
     <button class="lightbox-close" id="lightboxClose" type="button">fermer <span aria-hidden="true">×</span></button>
     <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
+  <div class="detail" id="about" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+    <div class="detail-inner">
+      <button class="detail-close about-close" id="aboutClose" type="button">fermer <span aria-hidden="true">×</span></button>
+      <h1 class="detail-title" id="aboutTitle">Toplitsch Vladimir</h1>
+      <span class="about-meta" id="aboutMeta"></span>
+      <p class="detail-text" id="aboutText"></p>
+      <span class="about-section-label">éxpériences</span>
+      <ul class="about-list" id="aboutList"></ul>
+      <p class="detail-text about-availability" id="aboutAvailability"></p>
+    </div>
   </div>
 
   <script src="script.js" defer></script>

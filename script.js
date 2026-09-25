@@ -97,6 +97,26 @@ const lightbox = document.getElementById('lightbox');
 const lightboxClose = document.getElementById('lightboxClose');
 const lightboxContent = document.getElementById('lightboxContent');
 
+const about = document.getElementById('about');
+const aboutTrigger = document.getElementById('aboutTrigger');
+const aboutClose = document.getElementById('aboutClose');
+const aboutMeta = document.getElementById('aboutMeta');
+const aboutText = document.getElementById('aboutText');
+const aboutList = document.getElementById('aboutList');
+const aboutAvailability = document.getElementById('aboutAvailability');
+
+const aboutData = {
+  age: '25 ans',
+  city: 'Lausanne',
+  text: "Étudiant en 3e année de CFC Graphiste à l'ERACOM. Mon travail est axé sur la création, l'édition et la recherche typographique.",
+  parcours: [
+    { place: 'ERACOM, Lausanne', role: 'CFC Graphiste (en cours)' },
+    { place: 'Stéphan Hernandez, Genève', role: "Stage d'un an en atelier" },
+    { place: 'Le Zinéma, Lausanne', role: 'Projectionniste' },
+  ],
+  availability: '',
+};
+
 /* ==========================================================================
    Utilitaires
    ========================================================================== */
@@ -419,12 +439,58 @@ function closeLightbox() {
 lightboxClose.addEventListener('click', closeLightbox);
 
 /* ==========================================================================
+   À propos
+   ========================================================================== */
+let lastFocusedBeforeAbout = null;
+let aboutOpen = false;
+
+function openAbout() {
+  aboutMeta.textContent = `${aboutData.age} — ${aboutData.city}`;
+  aboutText.textContent = preventOrphans(aboutData.text);
+
+  const fragment = document.createDocumentFragment();
+  aboutData.parcours.forEach((entry) => {
+    const li = document.createElement('li');
+    const place = document.createElement('span');
+    place.className = 'about-place';
+    place.textContent = entry.place;
+    const role = document.createElement('span');
+    role.className = 'about-role';
+    role.textContent = entry.role;
+    li.append(place, role);
+    fragment.appendChild(li);
+  });
+  aboutList.replaceChildren(fragment);
+  aboutAvailability.textContent = preventOrphans(aboutData.availability);
+
+  lastFocusedBeforeAbout = document.activeElement;
+  aboutOpen = true;
+  updateBackgroundInert();
+  about.hidden = false;
+  about.classList.add('active');
+  about.scrollTop = 0;
+  aboutClose.focus();
+}
+
+function closeAbout() {
+  if (!aboutOpen) return;
+  aboutOpen = false;
+  updateBackgroundInert();
+  about.classList.remove('active');
+  hideAfterTransition(about);
+  if (lastFocusedBeforeAbout) lastFocusedBeforeAbout.focus();
+}
+
+aboutTrigger.addEventListener('click', openAbout);
+aboutClose.addEventListener('click', closeAbout);
+
+/* ==========================================================================
    Neutralisation du contenu masqué derrière une modale
    `inert` ne change aucun style : il retire juste l'élément de l'arbre
    d'accessibilité et du focus clavier tant que la modale est ouverte.
    ========================================================================== */
 function updateBackgroundInert() {
-  const modalOpen = detailOpen || lightboxOpen;
+  const modalOpen = detailOpen || lightboxOpen || aboutOpen;
   [headerEl, footerEl, paginationEl, scrollContainer].forEach((el) => {
     if (el) el.inert = modalOpen;
   });
@@ -444,9 +510,11 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     if (lightboxOpen) closeLightbox();
     else if (detailOpen) closeDetail();
+    else if (aboutOpen) closeAbout();
   } else if (event.key === 'Tab') {
     if (lightboxOpen) trapFocus(lightbox, event);
     else if (detailOpen) trapFocus(detail, event);
+    else if (aboutOpen) trapFocus(about, event);
   } else if (lightboxOpen && lightboxImages.length > 1) {
     if (event.key === 'ArrowRight') showLightboxImage(1);
     else if (event.key === 'ArrowLeft') showLightboxImage(-1);
