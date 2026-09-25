@@ -15,6 +15,7 @@ const projects = [
     text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
     images: [
       'video-agenda-web.mp4',
+      'images/Présentation agenda_Final copie_Page_11_resultat_resultat.webp',
       'images/Présentation agenda_Final copie_Page_02_resultat_resultat.webp',
       'images/Présentation agenda_Final copie_Page_03_resultat_resultat.webp',
       'images/Présentation agenda_Final copie_Page_04_resultat_resultat.webp',
@@ -34,10 +35,9 @@ const projects = [
     cover: { src: 'images/IMG_2607_resultat_resultat.webp', alt: 'Affiche du workshop typographique' },
     text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
     images: [
+      'images/mockupworkshop.webp',
       'images/IMG_2607_resultat_resultat.webp',
       'images/workshop_resultat_resultat.webp',
-      'images/workshop01_resultat_resultat.webp',
-      'images/workshop02_resultat_resultat.webp',
     ],
   },
   {
@@ -46,7 +46,11 @@ const projects = [
     title: 'nifff',
     cover: { src: 'images/nifff_resultat_resultat.webp', alt: 'Affiche du Nifff' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
-    images: ['images/nifff_resultat_resultat.webp'],
+    images: [
+      'images/mockupnifff.webp',
+      'images/nifff_resultat_resultat.webp',
+
+    ],
   },
   {
     tag: 'textile',
