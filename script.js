@@ -71,6 +71,7 @@ const projects = [
     cover: { src: 'images/thomas01_resultat_resultat.webp', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
     text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
+      'images/thomasflyer.webp',
       'images/thomas00_resultat_resultat.webp',
       'images/thomas02_resultat_resultat.webp',
       'images/thomas03_resultat_resultat.webp',
