@@ -450,6 +450,10 @@ footer a {
 /* ---------- À propos ---------- */
 #about .detail-inner {
   position: relative;
+  /* Le nom est ancré à une hauteur constante, indépendante de la longueur
+     du contenu qui suit (pas un centrage qui bougerait si le texte
+     s'allonge) : entre 6.5rem (mobile bas) et 13rem (grand écran). */
+  padding-top: clamp(6.5rem, 24vh, 13rem);
 }
 
 .about-close {

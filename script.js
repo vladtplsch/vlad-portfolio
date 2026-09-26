@@ -258,6 +258,7 @@ projects.forEach((project, index) => {
     img.className = 'project-bg';
     img.loading = index === 0 ? 'eager' : 'lazy';
     img.decoding = 'async';
+    img.fetchPriority = img.loading === 'eager' ? 'high' : 'low';
     section.appendChild(img);
   }
 
