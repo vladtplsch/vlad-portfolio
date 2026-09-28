@@ -6,11 +6,11 @@ const projects = [
   {
     tag: 'édition',
     year: 'projet graphique – 2026',
-    title: "agend'archive",
+    title: "agend’archive",
     cover: { 
       type: 'video', 
       src: 'video-agenda-web.mp4', 
-      alt: "Vidéo agend'archive" 
+      alt: "Vidéo agend’archive" 
     },
     text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
     images: [
