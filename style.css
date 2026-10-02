@@ -15,6 +15,16 @@
   font-display: swap;
 }
 
+/* ---------- Police du petit texte ---------- */
+@font-face {
+  font-family: 'TWK Continental';
+  src: url('TWKContinental-Regular_copie.woff2') format('woff2'),
+       url('TWKContinental-Regular_copie.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---------- Reset ---------- */
 * {
   margin: 0;
@@ -31,10 +41,11 @@
 
   --font-title: 'Haetti Antiqua', 'Times New Roman', serif;
   --font-family: 'Helvetica', 'Arimo', 'Helvetica Neue', 'Arial', sans-serif;
+  --font-small: 'TWK Continental', 'Helvetica', 'Arimo', 'Helvetica Neue', 'Arial', sans-serif;
 
   /* Petit texte : référence unique (logo, footer, tags, années, boutons…) */
   --text-small-size: 0.85rem;
-  --text-small-weight: 500;
+  --text-small-weight: 400; /* TWK Continental Regular : une seule graisse */
   --text-small-spacing: 0.08em;
 
   --space-page-x: 4rem;
@@ -117,6 +128,7 @@ button,
 /* ---------- Header / Footer ---------- */
 header,
 footer {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -305,6 +317,7 @@ video.project-bg {
 }
 
 .project-meta {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -387,6 +400,7 @@ video.project-bg {
 }
 
 .detail-close {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -398,7 +412,6 @@ video.project-bg {
   background: none;
   border: none;
   color: var(--color-fg);
-  font-family: inherit;
   transition: opacity var(--ease-fast);
 }
 
@@ -415,6 +428,7 @@ video.project-bg {
 }
 
 .detail-meta {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -495,6 +509,7 @@ video.project-bg {
 }
 
 .about-meta {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -505,6 +520,7 @@ video.project-bg {
 }
 
 .about-section-label {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -581,6 +597,7 @@ video.project-bg {
 }
 
 .lightbox-close {
+  font-family: var(--font-small);
   font-size: var(--text-small-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
@@ -592,7 +609,6 @@ video.project-bg {
   background: none;
   border: none;
   color: var(--color-fg);
-  font-family: inherit;
   transition: opacity var(--ease-fast);
 }
 
