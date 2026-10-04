@@ -113,11 +113,11 @@ const aboutAvailability = document.getElementById('aboutAvailability');
 const aboutData = {
   age: '25 ans',
   city: 'Lausanne',
-  text: "Étudiant en 3e année de CFC Graphiste à l'ERACOM. Mon travail est axé sur la création, l'édition et la recherche typographique.",
+  text: "Étudiant en 3ème année de CFC Graphiste à l'ERACOM. Mon travail est axé sur la création, l'édition et la recherche typographique.",
   parcours: [
     { place: 'ERACOM, Lausanne', role: 'CFC Graphiste (en cours)' },
     { place: 'Stéphan Hernandez, Genève', role: "Stage d'un an en atelier" },
-    { place: 'Le Zinéma, Lausanne', role: 'Projectionniste' },
+    { place: 'Zinéma, Lausanne', role: 'Projectionniste' },
   ],
   availability: '',
 };
