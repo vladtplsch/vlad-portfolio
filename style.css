@@ -46,7 +46,7 @@
   /* Petit texte : référence unique (logo, footer, tags, années, boutons…) */
   --text-small-size: 0.85rem;
   --text-small-weight: 400; /* TWK Continental Regular : une seule graisse */
-  --text-small-spacing: 0.08em;
+  --text-small-spacing: 0.02em;
 
   --space-page-x: 4rem;
   --space-page-y: 3.5rem;
