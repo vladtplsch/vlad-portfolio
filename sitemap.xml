@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://vladtplsch.github.io/vlad-portfolio/</loc>
     <lastmod>2026-11-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_11_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_02_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_03_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_04_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_05_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_06_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_07_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_08_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_09_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/Pr%C3%A9sentation%20agenda_Final%20copie_Page_10_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/IMG_2607_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/mockupworkshop.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/workshop_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/nifff_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/mockupnifff.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/bico01_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/bico02_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/bico001_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomas01_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomasflyer.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomas00_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomas02_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomas03_resultat_resultat.webp</image:loc></image:image>
+    <image:image><image:loc>https://vladtplsch.github.io/vlad-portfolio/images/thomas04_resultat_resultat.webp</image:loc></image:image>
   </url>
 </urlset>

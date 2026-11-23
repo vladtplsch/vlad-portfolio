@@ -10,7 +10,7 @@ const projects = [
     cover: { 
       type: 'video', 
       src: 'video-agenda-web.mp4', 
-      alt: "Vidéo agend’archive" 
+      alt: "Agend’archive, agenda édité à partir des archives de l’ERACOM — Vladimir Toplitsch, graphiste" 
     },
     text: "Un agenda construit à partir des archives de l'école. J'en ai fait un objet éditorial fondé sur la transparence\u00A0: une feuille de calque glissée entre les pages laisse deviner la suite, et une micro\u2011typographie précise rythme discrètement la lecture.",
     images: [
@@ -32,7 +32,7 @@ const projects = [
     tag: 'affiche',
     year: 'workshop – 2024',
     title: 'workshop',
-    cover: { src: 'images/IMG_2607_resultat_resultat.webp', alt: 'Affiche du workshop typographique' },
+    cover: { src: 'images/IMG_2607_resultat_resultat.webp', alt: 'Affiche du workshop avec Guillaume Besson — Vladimir Toplitsch, graphiste à Lausanne' },
     text: "Affiche réalisée lors d'un workshop mené par Guillaume Besson, autour d'une recette de cuisine. La composition procède par superposition\u00A0: chaque couche de couleur enrichit la précédente, et l'image se construit étape par étape, jusqu'à révéler l'affiche finale.",
     images: [
       'images/mockupworkshop.webp',
@@ -44,7 +44,7 @@ const projects = [
     tag: 'affiche',
     year: 'design – 2025',
     title: 'nifff',
-    cover: { src: 'images/nifff_resultat_resultat.webp', alt: 'Affiche du Nifff' },
+    cover: { src: 'images/nifff_resultat_resultat.webp', alt: 'Affiche pour le Nifff, festival du film fantastique de Neuchâtel — Vladimir Toplitsch, graphiste' },
     text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche fait surgir un visage assemblé par collage, à partir de fragments d'images tirés des films du festival\u00A0: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie structure ensuite cette composition dense\u00A0: l'affiche reste lisible sans rien perdre de l'énergie brute du collage.",
     images: [
       'images/mockupnifff.webp',
@@ -56,7 +56,7 @@ const projects = [
     tag: 'textile',
     year: '2026',
     title: 'collaboration bico',
-    cover: { src: 'images/bico01_resultat_resultat.webp', alt: 'Création de deux pulls pour la marque suisse Bico' },
+    cover: { src: 'images/bico01_resultat_resultat.webp', alt: 'Deux pulls brodés pour la marque suisse Bico — Vladimir Toplitsch, graphiste' },
     text: "Contacté par la marque suisse Bico pour sa nouvelle collection, j'ai dessiné deux pulls en broderie et en impression à chaud. Deux techniques exigeantes, choisies pour faire dialoguer la précision du textile et un geste graphique plus brut.",
     images: [
       'images/bico01_resultat_resultat.webp',
@@ -68,7 +68,7 @@ const projects = [
     tag: 'flyer',
     year: '2026',
     title: 'thomas hirschhorn',
-    cover: { src: 'images/thomas01_resultat_resultat.webp', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
+    cover: { src: 'images/thomas01_resultat_resultat.webp', alt: 'Flyer de la programmation de films au Pavillon Sicli, exposition Thomas Hirschhorn — Vladimir Toplitsch' },
     text: "Pour l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai pris part à la programmation d'un cycle de films projetés au cœur même de l'exposition, en écho à son travail. J'en ai aussi conçu le flyer, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
       'images/thomasflyer.webp',
@@ -354,7 +354,7 @@ function openDetail(index) {
     }
     const img = document.createElement('img');
     img.src = src;
-    img.alt = `Visuel détaillé ${i + 1} — ${project.title}`;
+    img.alt = `${project.title} (${project.tag}), image ${i + 1} — Vladimir Toplitsch, graphiste`;
     img.loading = 'lazy';
     img.decoding = 'async';
     img.tabIndex = 0;
@@ -410,7 +410,7 @@ function renderLightboxImage() {
   } else {
     media = document.createElement('img');
     media.src = src;
-    media.alt = `Visuel détaillé ${lightboxIndex + 1} — ${lightboxProjectTitle}`;
+    media.alt = `${lightboxProjectTitle}, image ${lightboxIndex + 1} — Vladimir Toplitsch, graphiste`;
     media.addEventListener('click', () => showLightboxImage(1));
   }
   lightboxContent.replaceChildren(media);
