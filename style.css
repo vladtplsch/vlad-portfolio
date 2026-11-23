@@ -45,7 +45,7 @@
 
   /* Taille unique de TOUT le texte courant (tout sauf les titres) :
      nom, menu, footer, tags, années, boutons, paragraphes, listes… */
-  --text-size: 1rem;
+  --text-size: 0.8125rem; /* 13 px */
   --text-small-weight: 400; /* TWK Continental Regular : une seule graisse */
   --text-small-spacing: 0.02em;
 
@@ -90,13 +90,21 @@ body {
   height: 100%;
   background: var(--color-bg);
   color: var(--color-fg);
-  font-family: var(--font-family);
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   line-height: 1;
   text-transform: lowercase;
+}
+
+/* Texte courant : une seule police, taille, graisse et interlettrage.
+   (sur body seulement : sur html, cela changerait la valeur du rem) */
+body {
+  font-family: var(--font-small);
+  font-size: var(--text-size);
+  font-weight: var(--text-small-weight);
+  letter-spacing: var(--text-small-spacing);
 }
 
 a {
@@ -210,6 +218,10 @@ footer a {
   overflow: hidden;
 }
 
+.intro .project-meta {
+  display: none;
+}
+
 .intro-nav {
   pointer-events: all;
   display: flex;
@@ -220,7 +232,9 @@ footer a {
 
 .intro-link {
   display: block;
-  font-size: clamp(1.5rem, 9vw, 11rem);
+  /* Limité aussi par la hauteur : les 5 titres doivent tenir entre
+     le header et le footer, même sur un écran large mais bas */
+  font-size: clamp(1.5rem, min(10vw, 17vh), 14rem);
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -309,8 +323,9 @@ video.project-bg {
   text-align: center;
   pointer-events: none;
   width: 100%;
-  max-width: 90vw;
-  padding: 0 clamp(2rem, 6vw, 7rem);
+  max-width: 100vw;
+  /* marge latérale = marge de page + place pour la pagination */
+  padding: 0 calc(var(--space-page-x) + 1.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -335,7 +350,7 @@ video.project-bg {
 }
 
 .project-title {
-  font-size: clamp(1.5rem, 9vw, 11rem);
+  font-size: clamp(1.5rem, min(10vw, 18vh), 14rem);
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -440,7 +455,7 @@ video.project-bg {
 }
 
 .detail-title {
-  font-size: 4rem;
+  font-size: clamp(4rem, 5.5vw, 6.5rem);
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -452,9 +467,11 @@ video.project-bg {
 }
 
 .detail-text {
+  font-family: var(--font-small);
   font-size: var(--text-size);
-  line-height: 1.35;
-  font-weight: 300;
+  font-weight: var(--text-small-weight);
+  letter-spacing: var(--text-small-spacing);
+  line-height: 1.4;
   color: var(--color-fg-soft);
   max-width: 60ch;
   hyphens: none;
@@ -548,9 +565,11 @@ video.project-bg {
   grid-template-columns: 1fr auto;
   align-items: baseline;
   gap: 0.5rem 1.5rem;
+  font-family: var(--font-small);
   font-size: var(--text-size);
-  font-weight: 300;
-  line-height: 1.35;
+  font-weight: var(--text-small-weight);
+  letter-spacing: var(--text-small-spacing);
+  line-height: 1.4;
 }
 
 .about-place {
@@ -563,8 +582,11 @@ video.project-bg {
 }
 
 .about-availability {
+  font-family: var(--font-small);
   font-size: var(--text-size);
-  font-weight: 400;
+  font-weight: var(--text-small-weight);
+  letter-spacing: var(--text-small-spacing);
+  line-height: 1.4;
   color: var(--color-fg);
 }
 
@@ -677,16 +699,37 @@ video.project-bg {
   }
 
   .detail-title {
-    font-size: min(2.6rem, 13vw);
+    font-size: min(3.25rem, 13vw);
   }
 }
 
-/* Très petits écrans (Galaxy Fold replié…) : titres un peu réduits
-   pour que « collaboration » et « agend'archive » tiennent sur une ligne */
-@media (max-width: 340px) {
-  .project-title,
+/* Écrans bas : téléphone tenu à l'horizontale (≈ 375–430 px de haut).
+   Les titres suivent la hauteur et les marges se resserrent pour que
+   rien ne passe sous le header ou le footer. */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --space-page-y: 1.25rem;
+  }
+
+  .intro-nav {
+    gap: 0.6rem;
+  }
+
   .intro-link {
-    font-size: 7.6vw;
+    font-size: 12.5vh;
+  }
+
+  .project-tag {
+    margin-bottom: 1.75rem;
+  }
+
+  .project-year {
+    margin-top: 1.75rem;
+  }
+
+  .detail-inner,
+  #about .detail-inner {
+    padding-top: 4.5rem;
   }
 }
 
