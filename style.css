@@ -45,7 +45,7 @@
 
   /* Taille unique de TOUT le texte courant (tout sauf les titres) :
      nom, menu, footer, tags, années, boutons, paragraphes, listes… */
-  --text-size: 0.8125rem; /* 13 px */
+  --text-size: 0.875rem; /* 14 px */
   --text-small-weight: 400; /* TWK Continental Regular : une seule graisse */
   --text-small-spacing: 0.02em;
 
@@ -574,6 +574,8 @@ video.project-bg {
 
 .about-place {
   color: var(--color-fg);
+  justify-self: start; /* zone cliquable = le nom seulement, pas toute la ligne */
+  transition: opacity var(--ease-fast);
 }
 
 .about-role {
@@ -743,6 +745,7 @@ video.project-bg {
   nav a:hover,
   footer a:hover,
   .about-availability a:hover,
+  a.about-place:hover,
   .detail-close:hover,
   .lightbox-close:hover,
   .logo-trigger:hover {

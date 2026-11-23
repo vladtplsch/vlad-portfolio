@@ -115,9 +115,9 @@ const aboutData = {
   city: 'Lausanne',
   text: "Étudiant graphiste en 3e année de CFC à l'ERACOM. Je travaille l'édition, l'affiche et la recherche typographique, de l'idée jusqu'à l'objet imprimé.",
   parcours: [
-    { place: 'ERACOM, Lausanne', role: 'CFC Graphiste (en cours)' },
-    { place: 'Stéphan Hernandez, Genève', role: "Stage d'un an en atelier" },
-    { place: 'Zinéma, Lausanne', role: 'Projectionniste' },
+    { place: 'ERACOM, Lausanne', role: 'CFC Graphiste (en cours)', url: 'https://eracom.ch/' },
+    { place: 'Stéphane Hernandez, Genève', role: "Stage d'un an en atelier", url: 'http://www.schez.ch/' },
+    { place: 'Zinéma, Lausanne', role: 'Projectionniste', url: 'https://www.zinema.ch/' },
   ],
   availability: "Disponible pour un stage de 6\u00A0mois à Paris, de janvier à juin\u00A02027.",
   email: 'vltoplitsch@gmail.com',
@@ -464,9 +464,15 @@ function openAbout() {
   const fragment = document.createDocumentFragment();
   aboutData.parcours.forEach((entry) => {
     const li = document.createElement('li');
-    const place = document.createElement('span');
+    // Le lieu devient un lien (nouvel onglet) quand une adresse est fournie
+    const place = document.createElement(entry.url ? 'a' : 'span');
     place.className = 'about-place';
     place.textContent = entry.place;
+    if (entry.url) {
+      place.href = entry.url;
+      place.target = '_blank';
+      place.rel = 'noopener noreferrer';
+    }
     const role = document.createElement('span');
     role.className = 'about-role';
     role.textContent = entry.role;
