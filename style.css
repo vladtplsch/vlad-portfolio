@@ -43,8 +43,9 @@
   --font-family: 'Helvetica', 'Arimo', 'Helvetica Neue', 'Arial', sans-serif;
   --font-small: 'TWK Continental', 'Helvetica', 'Arimo', 'Helvetica Neue', 'Arial', sans-serif;
 
-  /* Petit texte : référence unique (logo, footer, tags, années, boutons…) */
-  --text-small-size: 0.85rem;
+  /* Taille unique de TOUT le texte courant (tout sauf les titres) :
+     nom, menu, footer, tags, années, boutons, paragraphes, listes… */
+  --text-size: 1rem;
   --text-small-weight: 400; /* TWK Continental Regular : une seule graisse */
   --text-small-spacing: 0.02em;
 
@@ -129,7 +130,7 @@ button,
 header,
 footer {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   position: fixed;
@@ -219,7 +220,7 @@ footer a {
 
 .intro-link {
   display: block;
-  font-size: clamp(2.25rem, 9vw, 11rem);
+  font-size: clamp(1.5rem, 9vw, 11rem);
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -318,7 +319,7 @@ video.project-bg {
 
 .project-meta {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   display: block;
@@ -334,7 +335,7 @@ video.project-bg {
 }
 
 .project-title {
-  font-size: clamp(2.25rem, 9vw, 11rem);
+  font-size: clamp(1.5rem, 9vw, 11rem);
   font-family: var(--font-title);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -401,7 +402,7 @@ video.project-bg {
 
 .detail-close {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   position: fixed;
@@ -429,7 +430,7 @@ video.project-bg {
 
 .detail-meta {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   display: flex;
@@ -451,7 +452,7 @@ video.project-bg {
 }
 
 .detail-text {
-  font-size: 1.05rem;
+  font-size: var(--text-size);
   line-height: 1.35;
   font-weight: 300;
   color: var(--color-fg-soft);
@@ -472,6 +473,12 @@ video.project-bg {
   height: auto;
   display: block;
   background: rgba(255, 255, 255, 0.03);
+  transition: opacity var(--ease-slow);
+}
+
+/* Fondu d'apparition : l'image reste invisible jusqu'à son chargement */
+.detail-images img.is-loading {
+  opacity: 0;
 }
 
 .detail-video {
@@ -510,7 +517,7 @@ video.project-bg {
 
 .about-meta {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   display: block;
@@ -521,7 +528,7 @@ video.project-bg {
 
 .about-section-label {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   display: block;
@@ -541,7 +548,7 @@ video.project-bg {
   grid-template-columns: 1fr auto;
   align-items: baseline;
   gap: 0.5rem 1.5rem;
-  font-size: 1.05rem;
+  font-size: var(--text-size);
   font-weight: 300;
   line-height: 1.35;
 }
@@ -556,9 +563,14 @@ video.project-bg {
 }
 
 .about-availability {
-  font-size: 1.2rem;
+  font-size: var(--text-size);
   font-weight: 400;
   color: var(--color-fg);
+}
+
+.about-availability a {
+  white-space: nowrap;
+  transition: opacity var(--ease-fast);
 }
 
 @media (max-width: 640px) {
@@ -598,7 +610,7 @@ video.project-bg {
 
 .lightbox-close {
   font-family: var(--font-small);
-  font-size: var(--text-small-size);
+  font-size: var(--text-size);
   font-weight: var(--text-small-weight);
   letter-spacing: var(--text-small-spacing);
   position: fixed;
@@ -665,7 +677,16 @@ video.project-bg {
   }
 
   .detail-title {
-    font-size: 2.6rem;
+    font-size: min(2.6rem, 13vw);
+  }
+}
+
+/* Très petits écrans (Galaxy Fold replié…) : titres un peu réduits
+   pour que « collaboration » et « agend'archive » tiennent sur une ligne */
+@media (max-width: 340px) {
+  .project-title,
+  .intro-link {
+    font-size: 7.6vw;
   }
 }
 
@@ -678,6 +699,7 @@ video.project-bg {
 
   nav a:hover,
   footer a:hover,
+  .about-availability a:hover,
   .detail-close:hover,
   .lightbox-close:hover,
   .logo-trigger:hover {

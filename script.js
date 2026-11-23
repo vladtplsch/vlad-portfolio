@@ -12,7 +12,7 @@ const projects = [
       src: 'video-agenda-web.mp4', 
       alt: "Vidéo agend’archive" 
     },
-    text: "À partir d'une récolte d'archives de l'école, j'ai conçu cet objet éditorial autour d'un jeu de transparence : une feuille de calque glissée entre les pages laisse deviner ce qui suit, tandis qu'une micro-typographie vient discrètement rythmer la lecture.",
+    text: "Un agenda construit à partir des archives de l'école. J'en ai fait un objet éditorial fondé sur la transparence\u00A0: une feuille de calque glissée entre les pages laisse deviner la suite, et une micro\u2011typographie précise rythme discrètement la lecture.",
     images: [
       'video-agenda-web.mp4',
       'images/Présentation agenda_Final copie_Page_11_resultat_resultat.webp',
@@ -33,7 +33,7 @@ const projects = [
     year: 'workshop – 2024',
     title: 'workshop',
     cover: { src: 'images/IMG_2607_resultat_resultat.webp', alt: 'Affiche du workshop typographique' },
-    text: "Affiche réalisée dans le cadre d'un workshop mené par Guillaume Besson pendant mes études en graphisme, autour d'une recette de cuisine. La composition joue sur la superposition de couches de couleur : chacune vient enrichir l'image jusqu'à révéler, progressivement, l'affiche finale.",
+    text: "Affiche réalisée lors d'un workshop mené par Guillaume Besson, autour d'une recette de cuisine. La composition procède par superposition\u00A0: chaque couche de couleur enrichit la précédente, et l'image se construit étape par étape, jusqu'à révéler l'affiche finale.",
     images: [
       'images/mockupworkshop.webp',
       'images/IMG_2607_resultat_resultat.webp',
@@ -45,7 +45,7 @@ const projects = [
     year: 'design – 2025',
     title: 'nifff',
     cover: { src: 'images/nifff_resultat_resultat.webp', alt: 'Affiche du Nifff' },
-    text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche donne forme à un visage assemblé par collage, à partir de fragments d'images puisées dans les films du festival: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie vient ensuite organiser cette composition dense, pour que l'affiche reste lisible sans effacer l'énergie brute du collage.",
+    text: "Conçue pour le Nifff, le festival international du film fantastique de Neuchâtel, cette affiche fait surgir un visage assemblé par collage, à partir de fragments d'images tirés des films du festival\u00A0: une figure hybride, à mi-chemin entre cinéma et papier découpé. La typographie structure ensuite cette composition dense\u00A0: l'affiche reste lisible sans rien perdre de l'énergie brute du collage.",
     images: [
       'images/mockupnifff.webp',
       'images/nifff_resultat_resultat.webp',
@@ -57,7 +57,7 @@ const projects = [
     year: '2026',
     title: 'collaboration bico',
     cover: { src: 'images/bico01_resultat_resultat.webp', alt: 'Création de deux pulls pour la marque suisse Bico' },
-    text: "Contacté par la marque suisse Bico pour concevoir sa nouvelle collection, j'ai conçu ces deux pulls autour de la broderie et de l'impression à chaud. Deux techniques exigeantes, qui font dialoguer précision textile et geste graphique plus brut.",
+    text: "Contacté par la marque suisse Bico pour sa nouvelle collection, j'ai dessiné deux pulls en broderie et en impression à chaud. Deux techniques exigeantes, choisies pour faire dialoguer la précision du textile et un geste graphique plus brut.",
     images: [
       'images/bico01_resultat_resultat.webp',
       'images/bico02_resultat_resultat.webp',
@@ -69,7 +69,7 @@ const projects = [
     year: '2026',
     title: 'thomas hirschhorn',
     cover: { src: 'images/thomas01_resultat_resultat.webp', alt: 'Flyer pour la programmation de films au Pavillon Sicli' },
-    text: "À l'occasion de l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai participé à une programmation de films diffusés au sein même de l'exposition, en écho à son travail. J'ai conçu le flyer annonçant ces séances, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
+    text: "Pour l'exposition de Thomas Hirschhorn au Pavillon Sicli, à Genève, j'ai pris part à la programmation d'un cycle de films projetés au cœur même de l'exposition, en écho à son travail. J'en ai aussi conçu le flyer, avec une identité graphique pensée pour dialoguer avec l'univers de l'artiste.",
     images: [
       'images/thomasflyer.webp',
       'images/thomas00_resultat_resultat.webp',
@@ -113,13 +113,14 @@ const aboutAvailability = document.getElementById('aboutAvailability');
 const aboutData = {
   age: '25 ans',
   city: 'Lausanne',
-  text: "Étudiant en 3ème année de CFC Graphiste à l'ERACOM. Mon travail est axé sur la création, l'édition et la recherche typographique.",
+  text: "Étudiant graphiste en 3e année de CFC à l'ERACOM. Je travaille l'édition, l'affiche et la recherche typographique, de l'idée jusqu'à l'objet imprimé.",
   parcours: [
     { place: 'ERACOM, Lausanne', role: 'CFC Graphiste (en cours)' },
     { place: 'Stéphan Hernandez, Genève', role: "Stage d'un an en atelier" },
     { place: 'Zinéma, Lausanne', role: 'Projectionniste' },
   ],
-  availability: '',
+  availability: "Disponible pour un stage de 6\u00A0mois à Paris, de janvier à juin\u00A02027.",
+  email: 'vltoplitsch@gmail.com',
 };
 
 /* ==========================================================================
@@ -288,6 +289,7 @@ projects.forEach((project, index) => {
   dot.className = 'dot';
   dot.type = 'button';
   dot.setAttribute('aria-label', `Aller au projet : ${project.title}`);
+  dot.tabIndex = -1; // doublon du sommaire au clavier : reste cliquable à la souris
   dot.addEventListener('click', () => section.scrollIntoView({ behavior: 'smooth' }));
   paginationEl.appendChild(dot);
   dots.push(dot);
@@ -357,6 +359,11 @@ function openDetail(index) {
     img.decoding = 'async';
     img.tabIndex = 0;
     img.setAttribute('role', 'button');
+    // Apparition en fondu une fois l'image décodée (plus de « pop » brutal)
+    img.classList.add('is-loading');
+    const reveal = () => img.classList.remove('is-loading');
+    img.addEventListener('load', reveal, { once: true });
+    img.addEventListener('error', reveal, { once: true });
     onActivate(img, () => openLightboxImage(project.images, i, project.title));
     fragment.appendChild(img);
   });
@@ -467,7 +474,16 @@ function openAbout() {
     fragment.appendChild(li);
   });
   aboutList.replaceChildren(fragment);
-  aboutAvailability.textContent = preventOrphans(aboutData.availability);
+  // Disponibilité + adresse : la page « à propos » rend le pied de page
+  // inaccessible, le contact doit donc y figurer aussi.
+  const mailLink = document.createElement('a');
+  mailLink.href = `mailto:${aboutData.email}`;
+  mailLink.textContent = aboutData.email;
+  aboutAvailability.replaceChildren(
+    document.createTextNode(preventOrphans(aboutData.availability)),
+    document.createElement('br'),
+    mailLink
+  );
 
   lastFocusedBeforeAbout = document.activeElement;
   aboutOpen = true;
@@ -526,6 +542,36 @@ document.addEventListener('keydown', (event) => {
     else if (event.key === 'ArrowLeft') showLightboxImage(-1);
   }
 });
+
+/* ==========================================================================
+   Adresse e-mail du pied de page : copie au clic (ordinateur uniquement)
+   Sur mobile, le lien mailto ouvre l'app de mail comme avant.
+   Si la copie échoue, le mailto prend le relais.
+   ========================================================================== */
+const footerMail = footerEl.querySelector('a[href^="mailto:"]');
+
+if (footerMail && navigator.clipboard && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const address = footerMail.textContent;
+  let resetTimer = 0;
+
+  footerMail.setAttribute('aria-label', `Copier l'adresse ${address}`);
+  footerMail.setAttribute('aria-live', 'polite');
+  footerMail.addEventListener('click', (event) => {
+    event.preventDefault();
+    navigator.clipboard.writeText(address).then(
+      () => {
+        footerMail.textContent = 'adresse copiée';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          footerMail.textContent = address;
+        }, 1600);
+      },
+      () => {
+        window.location.href = footerMail.href;
+      }
+    );
+  });
+}
 
 /* ==========================================================================
    Curseur personnalisé — souris uniquement (créé seulement si pointeur précis)
